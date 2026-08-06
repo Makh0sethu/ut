@@ -40,16 +40,14 @@ export const NewConnectionsPanel: React.FC<NewConnectionsPanelProps> = ({
       className={`hidden lg:flex w-56 xl:w-64 shrink-0 h-screen flex-col border-l transition-colors duration-300 p-3 xl:p-4 space-y-3 select-none ${
         isNight
           ? 'bg-neutral-950 border-amber-900/50 text-amber-100'
-          : isDay
-          ? 'bg-slate-50 border-slate-300 text-slate-900'
-          : 'bg-canvas border-line text-slate-100'
+          : 'bg-canvas border-line text-ink'
       }`}
     >
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <PlugZap size={14} className="text-accent" />
-          <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-slate-400">
+          <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-ink-faint">
             New Connections
           </span>
         </div>
@@ -65,18 +63,14 @@ export const NewConnectionsPanel: React.FC<NewConnectionsPanelProps> = ({
         </span>
       </div>
 
-      <p className={`text-[10px] font-mono tracking-tight leading-snug ${isDay ? 'text-slate-500' : 'text-slate-400'}`}>
+      <p className="text-[10px] font-mono tracking-tight leading-snug text-ink-muted">
         Cumulative energizations, current reporting period
       </p>
 
       {/* Rising Bar Chart */}
       <div className="flex-1 flex items-stretch gap-4 min-h-0 py-1">
         <div className="flex-1 flex justify-center">
-        <div
-          className={`relative w-16 xl:w-20 shrink-0 rounded-xl border overflow-hidden ${
-            isDay ? 'bg-white border-slate-300' : 'bg-panel border-line'
-          }`}
-        >
+        <div className="relative w-16 xl:w-20 shrink-0 rounded-xl border overflow-hidden bg-panel border-line">
           {/* Target marker line */}
           <div
             className="absolute left-0 right-0 border-t-2 border-dashed border-accent z-10"
@@ -95,23 +89,24 @@ export const NewConnectionsPanel: React.FC<NewConnectionsPanelProps> = ({
             <div className="absolute inset-x-0 top-0 h-1.5 bg-white/40" />
           </div>
         </div>
+        </div>
 
         {/* Stats column */}
         <div className="flex-1 flex flex-col justify-between py-1">
           <div>
-            <div className="text-[9px] font-mono font-bold text-slate-400 uppercase">Target</div>
+            <div className="text-[9px] font-mono font-bold text-ink-faint uppercase">Target</div>
             <div className="text-xs font-mono font-bold text-accent">{target.toLocaleString()}</div>
           </div>
           <div>
-            <div className="text-[9px] font-mono font-bold text-slate-400 uppercase">Progress</div>
-            <div className="text-xs font-mono font-bold text-emerald-400 flex items-center gap-1">
+            <div className="text-[9px] font-mono font-bold text-ink-faint uppercase">Progress</div>
+            <div className="text-xs font-mono font-bold text-emerald-500 flex items-center gap-1">
               <TrendingUp size={10} />
               {progressToTarget.toFixed(1)}%
             </div>
           </div>
           <div>
-            <div className="text-[9px] font-mono font-bold text-slate-400 uppercase">Remaining</div>
-            <div className={`text-xs font-mono font-bold ${isDay ? 'text-slate-700' : 'text-slate-300'}`}>
+            <div className="text-[9px] font-mono font-bold text-ink-faint uppercase">Remaining</div>
+            <div className="text-xs font-mono font-bold text-ink-muted">
               {(target - value).toLocaleString()}
             </div>
           </div>
@@ -119,19 +114,11 @@ export const NewConnectionsPanel: React.FC<NewConnectionsPanelProps> = ({
       </div>
 
       {/* Current value readout */}
-      <div
-        className={`rounded-xl border p-2.5 text-center ${
-          isDay ? 'bg-white border-slate-300' : 'bg-panel border-line'
-        }`}
-      >
-        <div className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-wider">
+      <div className="rounded-xl border p-2.5 text-center bg-panel border-line">
+        <div className="text-[9px] font-mono font-bold text-ink-faint uppercase tracking-wider">
           Connections Made
         </div>
-        <div
-          className={`text-xl xl:text-2xl font-mono font-black tracking-wider ${
-            isDay ? 'text-slate-900' : 'text-white'
-          }`}
-        >
+        <div className="text-xl xl:text-2xl font-mono font-black tracking-wider text-ink">
           {value.toLocaleString()}
         </div>
       </div>

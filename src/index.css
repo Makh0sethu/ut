@@ -1,38 +1,68 @@
 @import "tailwindcss";
 
 /*
-  Izitho design tokens (ported from NMJTM/BIBLE.md + frontend/src/styles/bible.css).
-  Mapped to Tailwind v4 @theme so utilities like bg-accent, text-ink, border-line
-  are generated automatically and stay in sync with the design system.
+  Izitho design tokens (PORTED directly from NMJTM/frontend/src/styles/bible.css).
+  Single Source of Truth for Light and Dark modes.
 */
+:root {
+  /* Core Palette (Light Mode - NMJTM Bible standard) */
+  --bg-primary: #fefefe;
+  --bg-surface: #f8fafc;
+  --bg-secondary: #f3f4f6;
+  --bg-tertiary: #e5e7eb;
+  
+  /* Typography Colors */
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  
+  /* Brand Accents */
+  --accent-primary: #055FB3;
+  --accent-hover: #044b8e;
+  --accent-glow: rgba(5, 95, 179, 0.2);
+  --success: #059669;
+  --border-color: #e5e7eb;
+}
+
+.dark {
+  /* Core Palette (Dark Mode - NMJTM Bible standard) */
+  --bg-primary: #121212;
+  --bg-surface: #1e1e1e;
+  --bg-secondary: #252525;
+  --bg-tertiary: #2e2e2e;
+  
+  /* Typography Colors */
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-muted: #9ca3af;
+  
+  /* Brand Accents */
+  --accent-primary: #055FB3;
+  --accent-hover: #044b8e;
+  --accent-glow: rgba(5, 95, 179, 0.4);
+  --success: #10b981;
+  --border-color: #333333;
+}
+
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 
   /* Brand accent (Izitho --accent-primary/hover/glow) */
-  --color-accent: #055fb3;
-  --color-accent-hover: #044b8e;
-  --color-accent-glow: rgba(5, 95, 179, 0.4);
-  --color-success: #10b981;
+  --color-accent: var(--accent-primary);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-glow: var(--accent-glow);
+  --color-success: var(--success);
 
-  /* Dark surfaces (Izitho dark palette) */
-  --color-canvas: #121212;
-  --color-panel: #1e1e1e;
-  --color-panel-alt: #252525;
-  --color-panel-raised: #2e2e2e;
-  --color-line: #333333;
+  /* Surface & Text Tokens */
+  --color-canvas: var(--bg-primary);
+  --color-panel: var(--bg-surface);
+  --color-panel-alt: var(--bg-secondary);
+  --color-panel-raised: var(--bg-tertiary);
+  --color-line: var(--border-color);
 
-  /* Light surfaces (Izitho light palette) */
-  --color-canvas-day: #fefefe;
-  --color-panel-day: #f8fafc;
-  --color-panel-alt-day: #f3f4f6;
-  --color-line-day: #e5e7eb;
-
-  /* Typography colors */
-  --color-ink: #f9fafb;
-  --color-ink-muted: #d1d5db;
-  --color-ink-faint: #9ca3af;
-  --color-ink-day: #111827;
-  --color-ink-muted-day: #4b5563;
+  --color-ink: var(--text-primary);
+  --color-ink-muted: var(--text-secondary);
+  --color-ink-faint: var(--text-muted);
 }
 
 @layer utilities {

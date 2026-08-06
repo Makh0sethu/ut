@@ -21,7 +21,6 @@ import {
   ChevronDown,
   LayoutGrid,
   Sliders,
-  Sparkles,
   Menu,
   X,
   FileSpreadsheet,
@@ -84,7 +83,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                 className="w-full h-full object-contain filter drop-shadow"
               />
             </div>
-            <span className="text-[9px] font-mono font-bold tracking-widest text-slate-400 uppercase">
+            <span className="text-[9px] font-mono font-bold tracking-widest text-ink-faint uppercase">
               ZESA HOLDINGS
             </span>
           </div>
@@ -107,7 +106,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                 <span>SYSTEMS OPTIMAL</span>
               </div>
             )}
-            <span className="text-[9px] font-mono font-medium text-slate-400 tracking-wider uppercase">
+            <span className="text-[9px] font-mono font-medium text-ink-faint tracking-wider uppercase">
               STATUS TELEMETRY
             </span>
           </div>
@@ -132,13 +131,13 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
           <div className="inline-block px-2 py-0.5 rounded bg-accent/10 border border-accent/30 text-accent text-[10px] font-mono font-bold tracking-widest uppercase mb-1">
             NMJTM • MODEL SYSTEM
           </div>
-          <h1 className="text-lg xl:text-xl font-black tracking-wider text-white uppercase font-sans leading-tight">
+          <h1 className="text-lg xl:text-xl font-black tracking-wider text-ink uppercase font-sans leading-tight">
             <span className="text-accent font-extrabold block">ZETDC PERFORMANCE</span>
-            <span className="text-xs text-slate-200 font-semibold tracking-wide block">
+            <span className="text-xs text-ink-muted font-semibold tracking-wide block">
               Distribution & Retail Cockpit
             </span>
           </h1>
-          <p className="text-[10px] text-slate-400 font-mono tracking-tight mt-1">
+          <p className="text-[10px] text-ink-faint font-mono tracking-tight mt-1">
             Executive BI Aviation Flight Deck Grid
           </p>
         </div>
@@ -146,7 +145,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
 
       {/* Category Panel Selection */}
       <div className="space-y-1.5">
-        <label className="text-[10px] font-mono font-bold tracking-wider text-slate-400 uppercase flex items-center gap-1">
+        <label className="text-[10px] font-mono font-bold tracking-wider text-ink-faint uppercase flex items-center gap-1">
           <LayoutGrid size={12} className="text-accent" />
           <span>INSTRUMENT PANEL FILTER</span>
         </label>
@@ -156,7 +155,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             className={`px-2.5 py-1.5 rounded-xl transition-all text-left flex items-center justify-between ${
               categoryFilter === 'ALL'
                 ? 'bg-accent text-white shadow-md'
-                : 'bg-panel-alt hover:bg-panel-raised text-slate-300 border border-line'
+                : 'bg-panel-alt hover:bg-panel-raised text-ink-muted border border-line'
             }`}
           >
             <span>ALL 9</span>
@@ -167,7 +166,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             className={`px-2.5 py-1.5 rounded-xl transition-all text-left flex items-center justify-between ${
               categoryFilter === 'Reliability & Operations'
                 ? 'bg-accent text-white shadow-md'
-                : 'bg-panel-alt hover:bg-panel-raised text-slate-300 border border-line'
+                : 'bg-panel-alt hover:bg-panel-raised text-ink-muted border border-line'
             }`}
           >
             <span>RELIABILITY</span>
@@ -178,7 +177,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             className={`px-2.5 py-1.5 rounded-xl transition-all text-left flex items-center justify-between ${
               categoryFilter === 'Commercial & Revenue'
                 ? 'bg-accent text-white shadow-md'
-                : 'bg-panel-alt hover:bg-panel-raised text-slate-300 border border-line'
+                : 'bg-panel-alt hover:bg-panel-raised text-ink-muted border border-line'
             }`}
           >
             <span>COMMERCIAL</span>
@@ -189,7 +188,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             className={`px-2.5 py-1.5 rounded-xl transition-all text-left flex items-center justify-between ${
               categoryFilter === 'Customer & Access'
                 ? 'bg-accent text-white shadow-md'
-                : 'bg-panel-alt hover:bg-panel-raised text-slate-300 border border-line'
+                : 'bg-panel-alt hover:bg-panel-raised text-ink-muted border border-line'
             }`}
           >
             <span>CUSTOMER</span>
@@ -200,7 +199,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
 
       {/* 5 Filter Dropdowns Stacked Vertically */}
       <div className="bg-panel border border-line rounded-2xl p-2.5 space-y-2">
-        <div className="flex items-center gap-1 text-[10px] font-mono font-bold text-slate-400 uppercase">
+        <div className="flex items-center gap-1 text-[10px] font-mono font-bold text-ink-faint uppercase">
           <Sliders size={12} className="text-accent" />
           <span>TELEMETRY FILTERS (5)</span>
         </div>
@@ -329,15 +328,15 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             ZERA Active
           </span>
         </div>
-        <div className="flex items-center justify-between text-slate-300 text-[10px]">
+        <div className="flex items-center justify-between text-ink-muted text-[10px]">
           <span>Ref Tariff:</span>
-          <span className="font-bold text-white">${ZETDC_NET_METERING_POLICY.referenceTariff}/kWh</span>
+          <span className="font-bold text-ink">${ZETDC_NET_METERING_POLICY.referenceTariff}/kWh</span>
         </div>
-        <div className="flex items-center justify-between text-slate-300 text-[10px]">
+        <div className="flex items-center justify-between text-ink-muted text-[10px]">
           <span>Net Billing Domestic:</span>
-          <span className="font-bold text-emerald-400">85c / $1 export</span>
+          <span className="font-bold text-emerald-500">85c / $1 export</span>
         </div>
-        <div className="flex items-center justify-between text-slate-300 text-[10px]">
+        <div className="flex items-center justify-between text-ink-muted text-[10px]">
           <span>Net Billing Commercial:</span>
           <span className="font-bold text-accent">80c / $1 export</span>
         </div>
@@ -345,7 +344,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
 
       {/* Preset Flight Scenarios */}
       <div className="space-y-1.5">
-        <label className="text-[10px] font-mono font-bold text-slate-400 uppercase block">
+        <label className="text-[10px] font-mono font-bold text-ink-faint uppercase block">
           FLIGHT SCENARIOS
         </label>
         <div className="grid grid-cols-2 gap-1.5">
@@ -353,7 +352,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             <button
               key={scenario.id}
               onClick={() => onApplyScenario(scenario)}
-              className="px-2 py-1.5 rounded-xl bg-panel hover:bg-panel-raised border border-line text-[11px] font-mono text-slate-200 flex items-center justify-between transition-all shadow-sm truncate"
+              className="px-2 py-1.5 rounded-xl bg-panel hover:bg-panel-raised border border-line text-[11px] font-mono text-ink flex items-center justify-between transition-all shadow-sm truncate"
             >
               <span className="truncate">{scenario.name}</span>
               <span className="text-[8px] px-1 bg-panel-raised text-accent rounded shrink-0">
@@ -384,7 +383,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
           <button
             onClick={onResetData}
             title="Reset telemetry metrics"
-            className="p-2 rounded-xl bg-panel hover:bg-panel-raised text-slate-300 border border-line transition-colors"
+            className="p-2 rounded-xl bg-panel hover:bg-panel-raised text-ink-muted border border-line transition-colors"
           >
             <RefreshCw size={14} />
           </button>
@@ -393,7 +392,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
           <button
             onClick={onExportReport}
             title="Export Cockpit Report"
-            className="p-2 rounded-xl bg-panel hover:bg-panel-raised text-slate-300 border border-line transition-colors"
+            className="p-2 rounded-xl bg-panel hover:bg-panel-raised text-ink-muted border border-line transition-colors"
           >
             <Download size={14} />
           </button>
@@ -401,12 +400,12 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
 
         {/* Theme Mode Switcher */}
         <div className="flex items-center justify-between bg-panel p-1 rounded-xl border border-line">
-          <span className="text-[10px] font-mono text-slate-400 pl-1.5 uppercase">THEME MODE</span>
+          <span className="text-[10px] font-mono text-ink-faint pl-1.5 uppercase">THEME MODE</span>
           <div className="flex items-center gap-1">
             <button
               onClick={() => onThemeChange('dark-graphite')}
               className={`p-1 rounded-lg ${
-                theme === 'dark-graphite' ? 'bg-panel-raised text-accent' : 'text-slate-500'
+                theme === 'dark-graphite' ? 'bg-accent/20 text-accent font-bold' : 'text-ink-faint'
               }`}
               title="Graphite Cockpit"
             >
@@ -415,7 +414,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             <button
               onClick={() => onThemeChange('night-amber')}
               className={`p-1 rounded-lg ${
-                theme === 'night-amber' ? 'bg-amber-900/80 text-amber-300' : 'text-slate-500'
+                theme === 'night-amber' ? 'bg-amber-900/80 text-amber-300' : 'text-ink-faint'
               }`}
               title="Night Vision Amber"
             >
@@ -424,7 +423,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             <button
               onClick={() => onThemeChange('daylight')}
               className={`p-1 rounded-lg ${
-                theme === 'daylight' ? 'bg-slate-200 text-slate-900' : 'text-slate-500'
+                theme === 'daylight' ? 'bg-accent text-white font-bold' : 'text-ink-faint'
               }`}
               title="Daylight High-Vis"
             >
@@ -442,10 +441,10 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
       <div className="lg:hidden bg-canvas border-b border-line p-2.5 flex items-center justify-between sticky top-0 z-30 select-none">
         <div className="flex items-center gap-2.5">
           <div className="w-9 h-9 p-0.5 bg-white rounded-lg border border-white/20 flex items-center justify-center">
-            <img src="/zesa-logo.svg" alt="ZESA Logo" className="w-full h-full object-contain" />
+            <img src="/zesa-logo.png" alt="ZESA Logo" className="w-full h-full object-contain" />
           </div>
           <div className="w-9 h-9 p-0.5 bg-white rounded-full border border-accent flex items-center justify-center">
-            <img src="/zetdc-logo.svg" alt="ZETDC Logo" className="w-full h-full object-contain" />
+            <img src="/zetdc-logo.png" alt="ZETDC Logo" className="w-full h-full object-contain" />
           </div>
           <div>
             <span className="font-bold text-xs text-white font-sans block leading-none">ZETDC COCKPIT</span>

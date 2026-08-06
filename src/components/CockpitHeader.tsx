@@ -63,7 +63,7 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
           <div className="flex items-center gap-3.5">
             <div className="w-12 h-14 shrink-0 flex items-center justify-center p-0.5 bg-white/5 rounded-lg border border-white/10 shadow-lg">
               <img
-                src="/zesa-logo.svg"
+                src="/zesa-logo.png"
                 alt="ZESA Holdings Coat of Arms Logo"
                 className="w-full h-full object-contain filter drop-shadow"
               />
@@ -111,7 +111,7 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
             {/* Top Right Logo (ZETDC Emblem) */}
             <div className="w-13 h-13 w-[52px] h-[52px] shrink-0 rounded-full bg-white p-1 border-2 border-accent/35 shadow-xl flex items-center justify-center">
               <img
-                src="/zetdc-logo.svg"
+                src="/zetdc-logo.png"
                 alt="ZETDC Official Emblem Logo"
                 className="w-full h-full object-contain"
               />

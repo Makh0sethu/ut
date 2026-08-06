@@ -1,7 +1,7 @@
 import React from 'react';
 import { KpiMetric, CockpitTheme } from '../types';
 import { getKpiStatus } from '../utils/gaugeHelpers';
-import { ShieldCheck, Zap, BarChart, Download, Radio } from 'lucide-react';
+import { ShieldCheck, Zap, Download, Radio } from 'lucide-react';
 
 interface CockpitFooterProps {
   kpis: KpiMetric[];
@@ -79,10 +79,10 @@ export const CockpitFooter: React.FC<CockpitFooterProps> = ({ kpis, theme, onExp
             isDay ? 'border-slate-200' : 'border-line'
           }`}>
             <div className="w-6 h-7 p-0.5 bg-white rounded border border-slate-200 flex items-center justify-center shadow-sm">
-              <img src="/zesa-logo.svg" alt="ZESA Logo" className="w-full h-full object-contain" />
+              <img src="/zesa-logo.png" alt="ZESA Logo" className="w-full h-full object-contain" />
             </div>
             <div className="w-6 h-6 p-0.5 bg-white rounded-full border border-accent flex items-center justify-center shadow-sm">
-              <img src="/zetdc-logo.svg" alt="ZETDC Logo" className="w-full h-full object-contain" />
+              <img src="/zetdc-logo.png" alt="ZETDC Logo" className="w-full h-full object-contain" />
             </div>
             <span className={`text-[11px] font-sans font-semibold ${
               isDay ? 'text-slate-800' : 'text-slate-300'

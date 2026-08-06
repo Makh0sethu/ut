@@ -13,7 +13,7 @@ export const INITIAL_KPIS: KpiMetric[] = [
   {
     id: 'saidi',
     code: 'KPI-01',
-    name: 'SAIDI INDEX',
+    name: 'SAIDI INDEX (Hours/Cust/Yr)',
     subtitle: 'System Average Interruption Duration Index',
     badgeTag: 'DURATION',
     category: 'Reliability & Operations',
@@ -55,7 +55,7 @@ export const INITIAL_KPIS: KpiMetric[] = [
   {
     id: 'saifi',
     code: 'KPI-02',
-    name: 'SAIFI INDEX',
+    name: 'SAIFI INDEX (Interrupt/Cust/Yr)',
     subtitle: 'System Average Interruption Frequency Index',
     badgeTag: 'FREQUENCY',
     category: 'Reliability & Operations',

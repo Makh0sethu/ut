@@ -88,24 +88,24 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
 
   return (
     <div
-      className={`relative group w-full max-w-xs mx-auto rounded-2xl p-2.5 xl:p-3.5 transition-all duration-300 flex flex-col justify-between select-none shadow-xl border ${
+      className={`relative group w-full max-w-xs mx-auto rounded-2xl p-2.5 xl:p-3.5 transition-all duration-300 flex flex-col justify-between select-none shadow-md border ${
         isDay
-          ? 'bg-white border-accent/20 text-slate-900 shadow-slate-200/60 hover:border-accent hover:shadow-lg'
+          ? 'bg-panel border-line text-ink hover:border-accent/50 hover:shadow-lg'
           : isNight
           ? 'bg-neutral-900 border-2 border-amber-900/40 text-amber-100 shadow-amber-950/20'
-          : 'bg-panel border-line text-slate-100 hover:border-accent/35'
+          : 'bg-panel border-line text-ink hover:border-accent/35'
       }`}
     >
       {/* Instrument Header Info */}
       <div className="flex items-start justify-between gap-2 mb-1 z-10">
         <div className="flex-1 min-w-0">
           <h3 className={`font-bold text-sm xl:text-base tracking-wider uppercase font-sans truncate ${
-            isDay ? 'text-slate-900' : 'text-white'
+            isDay ? 'text-ink' : 'text-white'
           }`}>
             {kpi.name}
           </h3>
           <p className={`text-[11px] font-sans tracking-tight truncate mt-0.5 ${
-            isDay ? 'text-slate-500 font-medium' : 'text-slate-400'
+            isDay ? 'text-ink-muted font-medium' : 'text-slate-400'
           }`}>
             {kpi.subtitle}
           </p>
@@ -196,7 +196,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
                   y1={y1}
                   x2={x2}
                   y2={y2}
-                  stroke={isDay ? '#1e293b' : '#ffffff'}
+                  stroke={isDay ? 'var(--text-primary)' : '#ffffff'}
                   strokeWidth={i % 2 === 0 ? 2 : 1}
                   strokeOpacity={0.85}
                 />
@@ -214,7 +214,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
                 y1="100"
                 x2="100"
                 y2="34"
-                stroke={isDay ? '#055fb3' : '#ffffff'}
+                stroke={isDay ? 'var(--accent-primary)' : '#ffffff'}
                 strokeWidth="3.5"
                 strokeLinecap="round"
               />
@@ -224,7 +224,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
                 y1="34"
                 x2="107"
                 y2="34"
-                stroke={isDay ? '#055fb3' : '#ffffff'}
+                stroke={isDay ? 'var(--accent-primary)' : '#ffffff'}
                 strokeWidth="4"
                 strokeLinecap="round"
               />
@@ -235,7 +235,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
               cx="100"
               cy="100"
               r="8"
-              fill={isDay ? '#055fb3' : '#ffffff'}
+              fill={isDay ? 'var(--accent-primary)' : '#ffffff'}
               className="drop-shadow-md"
             />
           </svg>
@@ -246,7 +246,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
           {/* Value Display Box under gauge */}
           <div className={`absolute bottom-0 font-mono font-bold text-base xl:text-lg tracking-wider px-2.5 py-0.5 rounded-md shadow-inner border ${
             isDay
-              ? 'bg-[#055fb3] text-white border-accent-hover'
+              ? 'bg-accent text-white border-accent-hover'
               : 'bg-panel text-white border-line'
           }`}>
             {formatValue(kpi.value, kpi.unit)}
@@ -307,29 +307,35 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
         </div>
       )}
 
-      {/* Footer Meter & Direction Status (Matching exact reference image layout) */}
+      {/* Footer Meter & Direction Status */}
       <div className="mt-2 pt-2 border-t border-line flex items-center justify-between text-xs font-mono">
-        {/* Left: TARGET —   TREND — */}
-        <div className="flex items-center gap-3 text-slate-400 text-[11px]">
-          <span>
-            TARGET <strong className="text-slate-200 font-bold ml-1">{kpi.target}</strong>
-          </span>
-          <span className="flex items-center gap-1">
-            TREND
-            {isImproving ? (
-              <TrendingUp size={11} className="text-emerald-400 inline ml-0.5" />
-            ) : isDeteriorating ? (
-              <TrendingDown size={11} className="text-red-400 inline ml-0.5" />
-            ) : (
-              <Minus size={11} className="text-slate-500 inline ml-0.5" />
-            )}
+        {/* Left: TARGET & Metric Spec Unit */}
+        <div className="flex flex-col text-ink-muted text-[11px]">
+          <div className="flex items-center gap-3">
+            <span>
+              TARGET <strong className="text-ink font-bold ml-1">{kpi.target}</strong>
+            </span>
+            <span className="flex items-center gap-1">
+              TREND
+              {isImproving ? (
+                <TrendingUp size={11} className="text-emerald-500 inline ml-0.5" />
+              ) : isDeteriorating ? (
+                <TrendingDown size={11} className="text-red-500 inline ml-0.5" />
+              ) : (
+                <Minus size={11} className="text-ink-faint inline ml-0.5" />
+              )}
+            </span>
+          </div>
+          {/* Light small text in brackets under the target */}
+          <span className="text-[9px] text-ink-faint font-sans tracking-tight">
+            ({kpi.unit})
           </span>
         </div>
 
         {/* Right: LOWER IS BETTER / HIGHER IS BETTER */}
         <div className="font-mono font-bold text-[10px] tracking-wider uppercase">
           {kpi.inverted ? (
-            <span className="text-red-400">LOWER IS BETTER</span>
+            <span className="text-red-500">LOWER IS BETTER</span>
           ) : (
             <span className="text-accent">HIGHER IS BETTER</span>
           )}
