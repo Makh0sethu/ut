@@ -22,5 +22,9 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      # Bind-mounted volumes on Windows/macOS don't reliably forward native FS
+      # change events into the Linux container, so hot reload silently stops
+      # working unless the watcher falls back to polling.
+      - CHOKIDAR_USEPOLLING=true
     env_file:
       - .env.example

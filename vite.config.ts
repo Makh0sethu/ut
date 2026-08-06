@@ -16,7 +16,13 @@ export default defineConfig(() => {
       // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
       // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
-      watch: process.env.DISABLE_HMR === 'true' ? null : {},
+      // CHOKIDAR_USEPOLLING is set by the Docker Compose "dev" service, since bind
+      // mounts on Windows/macOS don't reliably forward native FS change events into
+      // the Linux container, which otherwise breaks hot reload.
+      watch: process.env.DISABLE_HMR === 'true' ? null : {
+        usePolling: process.env.CHOKIDAR_USEPOLLING === 'true',
+        interval: 300,
+      },
     },
   };
 });
