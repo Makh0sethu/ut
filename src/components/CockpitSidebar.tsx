@@ -346,8 +346,8 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             <img src="/zetdc-logo.png" alt="ZETDC Logo" className="w-full h-full object-contain" />
           </div>
           <div>
-            <span className="font-bold text-xs text-white font-sans block leading-none">ZETDC COCKPIT</span>
-            <span className="text-[9px] text-white/70 font-mono">NMJTM MODEL</span>
+            <span className="font-bold text-xs text-white font-sans block leading-none">ZETDC KPI Dashboard</span>
+  
           </div>
         </div>
 
