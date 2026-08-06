@@ -13,7 +13,7 @@ import { NewConnectionsPanel } from './components/NewConnectionsPanel';
 
 export default function App() {
   const [kpis, setKpis] = useState<KpiMetric[]>(INITIAL_KPIS);
-  const [theme, setTheme] = useState<CockpitTheme>('dark-graphite');
+  const [theme, setTheme] = useState<CockpitTheme>('daylight');
   const [regionFilter, setRegionFilter] = useState<RegionFilter>('All Regions');
   const [categoryFilter, setCategoryFilter] = useState<KpiCategory | 'ALL'>('ALL');
   const [isSimulating, setIsSimulating] = useState<boolean>(false);
@@ -128,22 +128,13 @@ export default function App() {
   const hasRedAlerts = kpis.some((k) => getKpiStatus(k) === 'red');
   const hasAmberAlerts = kpis.some((k) => getKpiStatus(k) === 'amber');
 
-  // Synchronize document.documentElement `.dark` class with current theme (NMJTM pattern)
+  // Enforce light mode (remove `.dark` class from document.documentElement)
   useEffect(() => {
-    const root = document.documentElement;
-    if (theme === 'daylight') {
-      root.classList.remove('dark');
-    } else {
-      root.classList.add('dark');
-    }
+    document.documentElement.classList.remove('dark');
   }, [theme]);
 
   // Background style based on theme
-  const getBgStyle = () => {
-    if (theme === 'night-amber') return 'bg-neutral-950 text-amber-100 min-h-screen';
-    if (theme === 'daylight') return 'bg-canvas text-ink min-h-screen';
-    return 'bg-canvas text-ink min-h-screen';
-  };
+  const getBgStyle = () => 'bg-canvas text-ink min-h-screen';
 
   return (
     <div className={`${getBgStyle()} transition-colors duration-300 flex flex-col lg:flex-row h-screen overflow-hidden font-sans relative`}>

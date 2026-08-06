@@ -24,26 +24,6 @@
   --border-color: #e5e7eb;
 }
 
-.dark {
-  /* Core Palette (Dark Mode - NMJTM Bible standard) */
-  --bg-primary: #121212;
-  --bg-surface: #1e1e1e;
-  --bg-secondary: #252525;
-  --bg-tertiary: #2e2e2e;
-  
-  /* Typography Colors */
-  --text-primary: #f9fafb;
-  --text-secondary: #d1d5db;
-  --text-muted: #9ca3af;
-  
-  /* Brand Accents */
-  --accent-primary: #055FB3;
-  --accent-hover: #044b8e;
-  --accent-glow: rgba(5, 95, 179, 0.4);
-  --success: #10b981;
-  --border-color: #333333;
-}
-
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 

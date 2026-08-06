@@ -14,8 +14,6 @@ export const NewConnectionsPanel: React.FC<NewConnectionsPanelProps> = ({
   initialValue = 30000,
 }) => {
   const [value, setValue] = useState(initialValue);
-  const isNight = theme === 'night-amber';
-  const isDay = theme === 'daylight';
   const isComplete = value >= target;
 
   // Live counter that continually rises toward the connections target
@@ -37,11 +35,7 @@ export const NewConnectionsPanel: React.FC<NewConnectionsPanelProps> = ({
 
   return (
     <aside
-      className={`hidden lg:flex w-56 xl:w-64 shrink-0 h-screen flex-col border-l transition-colors duration-300 p-3 xl:p-4 space-y-3 select-none ${
-        isNight
-          ? 'bg-neutral-950 border-amber-900/50 text-amber-100'
-          : 'bg-canvas border-line text-ink'
-      }`}
+      className="hidden lg:flex w-56 xl:w-64 shrink-0 h-screen flex-col border-l transition-colors duration-300 p-3 xl:p-4 space-y-3 select-none bg-canvas border-line text-ink"
     >
       {/* Header */}
       <div className="flex items-center justify-between">

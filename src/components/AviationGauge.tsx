@@ -82,31 +82,17 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
     return 'border-accent/40 bg-accent/15 text-accent';
   };
 
-  // Theme styling rules
-  const isNight = theme === 'night-amber';
-  const isDay = theme === 'daylight';
-
   return (
     <div
-      className={`relative group w-full max-w-xs mx-auto rounded-2xl p-2.5 xl:p-3.5 transition-all duration-300 flex flex-col justify-between select-none shadow-md border ${
-        isDay
-          ? 'bg-panel border-line text-ink hover:border-accent/50 hover:shadow-lg'
-          : isNight
-          ? 'bg-neutral-900 border-2 border-amber-900/40 text-amber-100 shadow-amber-950/20'
-          : 'bg-panel border-line text-ink hover:border-accent/35'
-      }`}
+      className="relative group w-full max-w-xs mx-auto rounded-2xl p-2.5 xl:p-3.5 transition-all duration-300 flex flex-col justify-between select-none shadow-md border bg-panel border-line text-ink hover:border-accent/50 hover:shadow-lg"
     >
       {/* Instrument Header Info */}
       <div className="flex items-start justify-between gap-2 mb-1 z-10">
         <div className="flex-1 min-w-0">
-          <h3 className={`font-bold text-sm xl:text-base tracking-wider uppercase font-sans truncate ${
-            isDay ? 'text-ink' : 'text-white'
-          }`}>
+          <h3 className="font-bold text-sm xl:text-base tracking-wider uppercase font-sans truncate text-ink">
             {kpi.name}
           </h3>
-          <p className={`text-[11px] font-sans tracking-tight truncate mt-0.5 ${
-            isDay ? 'text-ink-muted font-medium' : 'text-slate-400'
-          }`}>
+          <p className="text-[11px] font-sans tracking-tight truncate mt-0.5 text-ink-muted font-medium">
             {kpi.subtitle}
           </p>
         </div>
@@ -196,7 +182,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
                   y1={y1}
                   x2={x2}
                   y2={y2}
-                  stroke={isDay ? 'var(--text-primary)' : '#ffffff'}
+                  stroke="var(--text-primary)"
                   strokeWidth={i % 2 === 0 ? 2 : 1}
                   strokeOpacity={0.85}
                 />
@@ -214,7 +200,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
                 y1="100"
                 x2="100"
                 y2="34"
-                stroke={isDay ? 'var(--accent-primary)' : '#ffffff'}
+                stroke="var(--accent-primary)"
                 strokeWidth="3.5"
                 strokeLinecap="round"
               />
@@ -224,7 +210,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
                 y1="34"
                 x2="107"
                 y2="34"
-                stroke={isDay ? 'var(--accent-primary)' : '#ffffff'}
+                stroke="var(--accent-primary)"
                 strokeWidth="4"
                 strokeLinecap="round"
               />
@@ -235,7 +221,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
               cx="100"
               cy="100"
               r="8"
-              fill={isDay ? 'var(--accent-primary)' : '#ffffff'}
+              fill="var(--accent-primary)"
               className="drop-shadow-md"
             />
           </svg>
@@ -244,11 +230,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
           <div className={`absolute bottom-8 w-3.5 h-3.5 rounded-full border-2 ${getPivotColor()}`} />
 
           {/* Value Display Box under gauge */}
-          <div className={`absolute bottom-0 font-mono font-bold text-base xl:text-lg tracking-wider px-2.5 py-0.5 rounded-md shadow-inner border ${
-            isDay
-              ? 'bg-accent text-white border-accent-hover'
-              : 'bg-panel text-white border-line'
-          }`}>
+          <div className="absolute bottom-0 font-mono font-bold text-base xl:text-lg tracking-wider px-2.5 py-0.5 rounded-md shadow-inner border bg-accent text-white border-accent-hover">
             {formatValue(kpi.value, kpi.unit)}
           </div>
         </div>

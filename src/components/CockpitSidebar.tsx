@@ -10,8 +10,6 @@ import {
 } from '../data/zetdcReferenceData';
 import {
   Activity,
-  Sun,
-  Moon,
   RefreshCw,
   Play,
   Pause,
@@ -61,8 +59,6 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
   isMobileOpen,
   onToggleMobile,
 }) => {
-  const isNight = theme === 'night-amber';
-
   const [reportingPeriod, setReportingPeriod] = useState('Q3 2026');
   const [districtFilter, setDistrictFilter] = useState('All Districts');
   const [customerClassFilter, setCustomerClassFilter] = useState('All Classes');
@@ -71,14 +67,14 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
   const content = (
     <div className="flex flex-col h-full justify-between p-4 space-y-4 select-none">
       {/* Top Branding Section with Dual Official Utility Logos */}
-      <div className={`space-y-3 pb-3.5 border-b ${isNight ? 'border-amber-900/50' : 'border-line'}`}>
+      <div className="space-y-3 pb-3.5 border-b border-line">
         {/* Large Prominent Dual Logos Header */}
         <div className="flex items-center justify-between gap-2">
           {/* Top Left Logo (ZESA Crest Shield) */}
           <div className="flex flex-col items-center gap-1">
             <div className="w-16 h-16 xl:w-20 xl:h-20 shrink-0 flex items-center justify-center p-1.5 bg-white rounded-2xl border-2 border-accent/30 shadow-xl transition-transform hover:scale-105">
               <img
-                src="/zesa-logo.svg"
+                src="/zesa-logo.png"
                 alt="ZESA Holdings Crest Logo"
                 className="w-full h-full object-contain filter drop-shadow"
               />
@@ -115,7 +111,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
           <div className="flex flex-col items-center gap-1">
             <div className="w-16 h-16 xl:w-20 xl:h-20 shrink-0 rounded-full bg-white p-1.5 border-2 border-accent shadow-xl flex items-center justify-center transition-transform hover:scale-105">
               <img
-                src="/zetdc-logo.svg"
+                src="/zetdc-logo.png"
                 alt="ZETDC Official Emblem Logo"
                 className="w-full h-full object-contain"
               />
@@ -397,40 +393,6 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             <Download size={14} />
           </button>
         </div>
-
-        {/* Theme Mode Switcher */}
-        <div className="flex items-center justify-between bg-panel p-1 rounded-xl border border-line">
-          <span className="text-[10px] font-mono text-ink-faint pl-1.5 uppercase">THEME MODE</span>
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => onThemeChange('dark-graphite')}
-              className={`p-1 rounded-lg ${
-                theme === 'dark-graphite' ? 'bg-accent/20 text-accent font-bold' : 'text-ink-faint'
-              }`}
-              title="Graphite Cockpit"
-            >
-              <Moon size={13} />
-            </button>
-            <button
-              onClick={() => onThemeChange('night-amber')}
-              className={`p-1 rounded-lg ${
-                theme === 'night-amber' ? 'bg-amber-900/80 text-amber-300' : 'text-ink-faint'
-              }`}
-              title="Night Vision Amber"
-            >
-              <Zap size={13} />
-            </button>
-            <button
-              onClick={() => onThemeChange('daylight')}
-              className={`p-1 rounded-lg ${
-                theme === 'daylight' ? 'bg-accent text-white font-bold' : 'text-ink-faint'
-              }`}
-              title="Daylight High-Vis"
-            >
-              <Sun size={13} />
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );
@@ -461,13 +423,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
       </div>
 
       {/* Desktop Fixed Left Side Panel */}
-      <aside
-        className={`hidden lg:block w-72 xl:w-80 shrink-0 h-screen overflow-y-auto border-r transition-colors duration-300 ${
-          isNight
-            ? 'bg-neutral-950 border-amber-900/50 text-amber-100'
-            : 'bg-canvas border-line text-slate-100'
-        }`}
-      >
+      <aside className="hidden lg:block w-72 xl:w-80 shrink-0 h-screen overflow-y-auto border-r transition-colors duration-300 bg-canvas border-line text-slate-100">
         {content}
       </aside>
 

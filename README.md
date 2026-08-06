@@ -1,20 +1,20 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# ZETDC Performance Cockpit
 
-# Run and deploy your AI Studio app
-
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/e4c080c5-0cea-4074-8a1e-f0a76e8b203b
+Interactive aviation instrument cockpit dashboard for utility distribution and retail performance tracking, with 9 core KPIs shown as interactive analog dials and 3-point meters.
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
-
+**Prerequisites:** Node.js
 
 1. Install dependencies:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
+2. Run the app:
    `npm run dev`
+
+## Run with Docker
+
+Production build (served with Nginx):
+`docker compose up app`
+
+Development server with hot reload:
+`docker compose up dev`

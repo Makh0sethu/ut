@@ -4,7 +4,6 @@ import { PRESET_SCENARIOS } from '../data/mockKpis';
 import {
   Activity,
   Sun,
-  Moon,
   RefreshCw,
   Play,
   Pause,
@@ -41,21 +40,13 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
   hasRedAlerts,
   hasAmberAlerts,
 }) => {
-  const isNight = theme === 'night-amber';
-
   const [reportingPeriod, setReportingPeriod] = useState('Q3 2026');
   const [districtFilter, setDistrictFilter] = useState('All Districts');
   const [customerClassFilter, setCustomerClassFilter] = useState('All Classes');
   const [networkLevelFilter, setNetworkLevelFilter] = useState('All Voltage Levels');
 
   return (
-    <header
-      className={`border-b transition-colors duration-300 select-none ${
-        isNight
-          ? 'bg-neutral-950 border-amber-900/50 text-amber-100'
-          : 'bg-canvas border-line text-slate-100'
-      }`}
-    >
+    <header className="border-b transition-colors duration-300 select-none bg-canvas border-line text-slate-100">
       <div className="max-w-7xl mx-auto px-4 py-3 space-y-3">
         {/* Top Branding Header Row with Dual Official Utility Logos */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 stroke border-b border-line">
@@ -275,37 +266,6 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
             >
               <Download size={14} />
             </button>
-
-            {/* Theme Toggle */}
-            <div className="flex items-center bg-panel p-0.5 rounded-lg border border-line">
-              <button
-                onClick={() => onThemeChange('dark-graphite')}
-                className={`p-1 rounded-md ${
-                  theme === 'dark-graphite' ? 'bg-panel-raised text-accent' : 'text-slate-500'
-                }`}
-                title="Graphite Cockpit"
-              >
-                <Moon size={13} />
-              </button>
-              <button
-                onClick={() => onThemeChange('night-amber')}
-                className={`p-1 rounded-md ${
-                  theme === 'night-amber' ? 'bg-amber-900/80 text-amber-300' : 'text-slate-500'
-                }`}
-                title="Night Vision Amber"
-              >
-                <Zap size={13} />
-              </button>
-              <button
-                onClick={() => onThemeChange('daylight')}
-                className={`p-1 rounded-md ${
-                  theme === 'daylight' ? 'bg-slate-200 text-slate-900' : 'text-slate-500'
-                }`}
-                title="Daylight High-Vis"
-              >
-                <Sun size={13} />
-              </button>
-            </div>
           </div>
         </div>
       </div>
