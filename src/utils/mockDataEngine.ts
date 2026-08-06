@@ -1,5 +1,5 @@
 import { KpiMetric, SimulationScenario } from '../types';
-import { classifyDistrictTier } from '../data/zetdcReferenceData';
+import { ZETDC_DISTRICTS } from '../data/zetdcReferenceData';
 
 export interface CockpitFilterState {
   region: string;
@@ -9,39 +9,10 @@ export interface CockpitFilterState {
   reportingPeriod: string;
 }
 
-// Deterministic string -> [0,1) hash (FNV-1a + xorshift finalize). Same input always
-// produces the same fraction, so a given district's numbers stay stable across renders.
-function seededFraction(seed: string): number {
-  let h = 0x811c9dc5;
-  for (let i = 0; i < seed.length; i++) {
-    h ^= seed.charCodeAt(i);
-    h = Math.imul(h, 0x01000193);
-  }
-  h ^= h >>> 13;
-  h = Math.imul(h, 0x5bd1e995);
-  h ^= h >>> 15;
-  return ((h >>> 0) % 10000) / 10000;
-}
-
-// Degradation factor by district tier: >1 means worse-performing, <1 means better-performing,
-// consistent with the Harare/Bulawayo-best, rural-Matabeleland-worst pattern already used
-// in the hand-authored regional breakdowns.
-const DISTRICT_TIER_DEGRADATION: Record<'metro' | 'urban' | 'rural', number> = {
-  metro: 0.78,
-  urban: 0.97,
-  rural: 1.24,
-};
-
-// Per-district, per-KPI multiplier. Combines the district's infrastructure tier with a small
-// deterministic jitter so neighboring rural districts don't all read identically.
-export function getDistrictMultiplier(district: string, kpiId: string, inverted: boolean): number {
-  if (!district || district === 'All Districts') return 1;
-  const tier = classifyDistrictTier(district);
-  const jitter = (seededFraction(`${district}::${kpiId}`) - 0.5) * 0.22;
-  const degradation = Math.max(0.4, DISTRICT_TIER_DEGRADATION[tier] + jitter);
-  // Inverted KPIs (SAIDI, SAIFI, losses, response/wait times) get worse as degradation rises.
-  // Non-inverted KPIs (access, sales, collection, CSAT) get better as degradation falls.
-  return inverted ? degradation : 1 / degradation;
+// Looks up which of the 5 Regions a District belongs to, so a Region filter can be
+// applied by averaging that region's already-authored per-district breakdown values.
+function regionOf(districtName: string): string | undefined {
+  return ZETDC_DISTRICTS.find((d) => d.name === districtName)?.region;
 }
 
 // Customer-class adjustment factors, curated per KPI. Absent entries default to 1 (no change).
@@ -130,6 +101,9 @@ function roundForUnit(val: number, unit: string): number {
 // filter. A scenario is a weight applied on top of the region/district result, not a flat
 // override, so picking a region while a scenario is active still shows that region's own
 // variance scaled by the scenario rather than reverting to the plain reference number.
+// District (one of 18) takes priority over Region (one of 5) when both are set — a Region
+// filter averages the region's own districts from the same regionalBreakdown data instead
+// of applying a separate synthetic factor, so the two filters stay internally consistent.
 export function computeDisplayKpi(
   kpi: KpiMetric,
   filters: CockpitFilterState,
@@ -137,14 +111,19 @@ export function computeDisplayKpi(
 ): KpiMetric {
   let value = getPeriodValue(kpi, filters.reportingPeriod);
 
-  if (filters.region && filters.region !== 'All Regions') {
-    const regData = kpi.regionalBreakdown.find((r) => r.region === filters.region);
-    if (regData && kpi.value !== 0) {
-      value *= regData.value / kpi.value;
+  if (filters.district && filters.district !== 'All Districts') {
+    const distData = kpi.regionalBreakdown.find((r) => r.region === filters.district);
+    if (distData && kpi.value !== 0) {
+      value *= distData.value / kpi.value;
+    }
+  } else if (filters.region && filters.region !== 'All Regions') {
+    const regionEntries = kpi.regionalBreakdown.filter((r) => regionOf(r.region) === filters.region);
+    if (regionEntries.length > 0 && kpi.value !== 0) {
+      const regionAvg = average(regionEntries.map((e) => e.value));
+      value *= regionAvg / kpi.value;
     }
   }
 
-  value *= getDistrictMultiplier(filters.district, kpi.id, kpi.inverted);
   value *= CUSTOMER_CLASS_FACTORS[filters.customerClass]?.[kpi.id] ?? 1;
   value *= NETWORK_LEVEL_FACTORS[filters.networkLevel]?.[kpi.id] ?? 1;
   value *= scenario?.weights[kpi.id] ?? 1;

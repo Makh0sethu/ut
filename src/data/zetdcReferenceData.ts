@@ -1,14 +1,8 @@
-export interface ZetdcRegion {
+export interface ZetdcDistrict {
   id: string;
   code: string;
   name: string;
-  zone: string;
-  primaryDistrict: string;
-}
-
-export interface ZetdcProvince {
-  name: string;
-  districts: string[];
+  region: string;
 }
 
 export interface ZetdcCustomerCategory {
@@ -34,92 +28,36 @@ export interface NetworkLevel {
   voltageKv?: string;
 }
 
-// 1. ZETDC 17 Operational Regions
-export const ZETDC_OPERATIONAL_REGIONS: ZetdcRegion[] = [
-  { id: 'harare_east', code: 'REG-01', name: 'Harare — East', zone: 'Harare Metro', primaryDistrict: 'Harare Municipality' },
-  { id: 'harare_north', code: 'REG-02', name: 'Harare — North', zone: 'Harare Metro', primaryDistrict: 'Harare Municipality' },
-  { id: 'harare_south', code: 'REG-03', name: 'Harare — South', zone: 'Harare Metro', primaryDistrict: 'Harare Municipality' },
-  { id: 'chitungwiza', code: 'REG-04', name: 'Chitungwiza', zone: 'Harare Metro', primaryDistrict: 'Chitungwiza' },
-  { id: 'chinhoyi', code: 'REG-05', name: 'Chinhoyi (Northern Region)', zone: 'Northern Region', primaryDistrict: 'Chinhoyi' },
-  { id: 'bindura', code: 'REG-06', name: 'Bindura (Northern Region)', zone: 'Northern Region', primaryDistrict: 'Bindura' },
-  { id: 'kadoma', code: 'REG-07', name: 'Kadoma (Northern Region)', zone: 'Northern Region', primaryDistrict: 'Kadoma' },
-  { id: 'marondera', code: 'REG-08', name: 'Marondera (Northern Region)', zone: 'Northern Region', primaryDistrict: 'Marondera' },
-  { id: 'gweru', code: 'REG-09', name: 'Gweru (Midlands)', zone: 'Midlands Region', primaryDistrict: 'Gweru' },
-  { id: 'kwekwe', code: 'REG-10', name: 'Kwekwe (Midlands)', zone: 'Midlands Region', primaryDistrict: 'Kwekwe' },
-  { id: 'zvishavane', code: 'REG-11', name: 'Zvishavane (Midlands)', zone: 'Midlands Region', primaryDistrict: 'Zvishavane' },
-  { id: 'mutare_manicaland', code: 'REG-12', name: 'Mutare / Manicaland', zone: 'Eastern Region', primaryDistrict: 'Mutare' },
-  { id: 'masvingo', code: 'REG-13', name: 'Masvingo', zone: 'Southern Region', primaryDistrict: 'Masvingo' },
-  { id: 'gwanda', code: 'REG-14', name: 'Gwanda (Matabeleland)', zone: 'Western Region', primaryDistrict: 'Gwanda' },
-  { id: 'hwange', code: 'REG-15', name: 'Hwange (Matabeleland)', zone: 'Western Region', primaryDistrict: 'Hwange' },
-  { id: 'bulawayo_west', code: 'REG-16', name: 'Bulawayo — West', zone: 'Western Region', primaryDistrict: 'Bulawayo' },
-  { id: 'bulawayo_east', code: 'REG-17', name: 'Bulawayo — East', zone: 'Western Region', primaryDistrict: 'Bulawayo' },
+// 1. ZETDC 5 Operational Regions
+export const ZETDC_REGIONS: string[] = [
+  'Harare Region',
+  'Northern Region',
+  'Southern Region',
+  'Eastern Region',
+  'Western Region',
 ];
 
-// 2. ZETDC 83 Districts by 10 Provinces
-export const ZETDC_PROVINCES: ZetdcProvince[] = [
-  {
-    name: 'Bulawayo Province',
-    districts: ['Bulawayo'],
-  },
-  {
-    name: 'Harare Province',
-    districts: ['Chitungwiza', 'Epworth', 'Harare Municipality', 'Harare Rural'],
-  },
-  {
-    name: 'Manicaland Province',
-    districts: ['Buhera', 'Chimanimani', 'Chipinge', 'Chipinge Urban', 'Makoni', 'Mutare', 'Mutare Town', 'Mutasa', 'Nyanga'],
-  },
-  {
-    name: 'Mashonaland Central Province',
-    districts: ['Bindura', 'Bindura Urban', 'Guruve', 'Mazowe', 'Mbire', 'Mount Darwin', 'Muzarabani', 'Rushinga', 'Shamva'],
-  },
-  {
-    name: 'Mashonaland East Province',
-    districts: ['Chikomba', 'Goromonzi', 'Hwedza', 'Marondera', 'Marondera Town', 'Mudzi', 'Murehwa', 'Mutoko', 'Ruwa', 'Seke', 'UMP'],
-  },
-  {
-    name: 'Mashonaland West Province',
-    districts: ['Chegutu', 'Chegutu Town', 'Chinhoyi', 'Hurungwe', 'Kadoma', 'Kariba', 'Kariba Town', 'Karoi', 'Makonde', 'Mhondoro Ngezi', 'Norton', 'Sanyati', 'Zvimba'],
-  },
-  {
-    name: 'Masvingo Province',
-    districts: ['Bikita', 'Chiredzi', 'Chiredzi Urban', 'Chivi', 'Gutu', 'Masvingo', 'Masvingo Town', 'Mwenezi', 'Zaka'],
-  },
-  {
-    name: 'Matabeleland North Province',
-    districts: ['Binga', 'Bubi', 'Hwange', 'Hwange Town', 'Lupane', 'Nkayi', 'Tsholotsho', 'Umguza', 'Victoria Falls'],
-  },
-  {
-    name: 'Matabeleland South Province',
-    districts: ['Beitbridge', 'Beitbridge Town', 'Bulilima (North)', 'Gwanda', 'Gwanda Town', 'Insiza', 'Mangwe (South)', 'Matobo', 'Plumtree', 'Umzingwane'],
-  },
-  {
-    name: 'Midlands Province',
-    districts: ['Chirumhanzu', 'Gokwe North', 'Gokwe South', 'Gokwe Urban', 'Gweru', 'Kwekwe', 'Kwekwe Town', 'Mberengwa', 'Redcliff', 'Shurugwi', 'Shurugwi Urban', 'Zvishavane', 'Zvishavane Town'],
-  },
+// 2. ZETDC 18 Operational Districts, grouped under the 5 Regions above
+export const ZETDC_DISTRICTS: ZetdcDistrict[] = [
+  { id: 'harare_east', code: 'REG-01', name: 'Harare — East', region: 'Harare Region' },
+  { id: 'harare_north', code: 'REG-02', name: 'Harare — North', region: 'Harare Region' },
+  { id: 'harare_south', code: 'REG-03', name: 'Harare — South', region: 'Harare Region' },
+  { id: 'chitungwiza', code: 'REG-04', name: 'Chitungwiza', region: 'Harare Region' },
+  { id: 'chinhoyi', code: 'REG-05', name: 'Chinhoyi (Northern Region)', region: 'Northern Region' },
+  { id: 'bindura', code: 'REG-06', name: 'Bindura (Northern Region)', region: 'Northern Region' },
+  { id: 'kadoma', code: 'REG-07', name: 'Kadoma (Northern Region)', region: 'Northern Region' },
+  { id: 'marondera', code: 'REG-08', name: 'Marondera (Northern Region)', region: 'Northern Region' },
+  { id: 'gweru', code: 'REG-09', name: 'Gweru (Southern Region)', region: 'Southern Region' },
+  { id: 'kwekwe', code: 'REG-10', name: 'Kwekwe (Southern Region)', region: 'Southern Region' },
+  { id: 'zvishavane', code: 'REG-11', name: 'Zvishavane (Southern Region)', region: 'Southern Region' },
+  { id: 'mutare', code: 'REG-12', name: 'Mutare', region: 'Eastern Region' },
+  { id: 'manicaland', code: 'REG-13', name: 'Manicaland', region: 'Eastern Region' },
+  { id: 'masvingo', code: 'REG-14', name: 'Masvingo', region: 'Eastern Region' },
+  { id: 'gwanda', code: 'REG-15', name: 'Gwanda (Matabeleland)', region: 'Western Region' },
+  { id: 'hwange', code: 'REG-16', name: 'Hwange (Matabeleland)', region: 'Western Region' },
+  { id: 'bulawayo_west', code: 'REG-17', name: 'Bulawayo — West', region: 'Western Region' },
+  { id: 'bulawayo_east', code: 'REG-18', name: 'Bulawayo — East', region: 'Western Region' },
 ];
-
-// Flat list of all 83 Districts
-export const ALL_ZETDC_DISTRICTS: string[] = ZETDC_PROVINCES.flatMap((p) => p.districts);
-
-// Metro-tier districts: major city centres with the densest, best-maintained grid infrastructure
-const METRO_DISTRICTS = new Set(['Bulawayo', 'Harare Municipality', 'Chitungwiza']);
-
-// Urban/secondary-town-tier districts: provincial capitals & growth points with moderate infrastructure
-const URBAN_DISTRICTS = new Set([
-  'Epworth', 'Ruwa', 'Norton', 'Redcliff', 'Chinhoyi', 'Bindura Urban', 'Marondera Town',
-  'Kadoma', 'Kariba Town', 'Karoi', 'Chegutu Town', 'Mutare Town', 'Chipinge Urban',
-  'Masvingo Town', 'Gwanda Town', 'Beitbridge Town', 'Hwange Town', 'Victoria Falls',
-  'Gweru', 'Kwekwe Town', 'Gokwe Urban', 'Zvishavane Town', 'Shurugwi Urban', 'Plumtree',
-]);
-
-// Classifies a district into an infrastructure tier used to derive realistic mock KPI variance.
-// Metro = best-served, Rural = least-served, mirroring the existing regional breakdown pattern.
-export function classifyDistrictTier(district: string): 'metro' | 'urban' | 'rural' {
-  if (METRO_DISTRICTS.has(district)) return 'metro';
-  if (URBAN_DISTRICTS.has(district)) return 'urban';
-  return 'rural';
-}
 
 // 3. Customer Classes (TariffRate Model)
 export const ZETDC_CUSTOMER_CATEGORIES: ZetdcCustomerCategory[] = [

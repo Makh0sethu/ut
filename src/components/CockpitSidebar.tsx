@@ -2,8 +2,8 @@ import React from 'react';
 import { CockpitTheme, RegionFilter, SimulationScenario, KpiCategory } from '../types';
 import { PRESET_SCENARIOS } from '../data/mockKpis';
 import {
-  ZETDC_OPERATIONAL_REGIONS,
-  ZETDC_PROVINCES,
+  ZETDC_REGIONS,
+  ZETDC_DISTRICTS,
   ZETDC_CUSTOMER_CATEGORIES,
   ZETDC_NETWORK_LEVELS,
 } from '../data/zetdcReferenceData';
@@ -193,10 +193,10 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
           </div>
         </div>
 
-        {/* 2. REGION (17 ZETDC Operational Regions) */}
+        {/* 2. REGION (5 ZETDC Operational Regions) */}
         <div className="space-y-0.5">
           <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase">
-            ZETDC OPERATIONAL REGION (17)
+            ZETDC OPERATIONAL REGION (5)
           </label>
           <div className="relative">
             <select
@@ -204,10 +204,10 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
               onChange={(e) => onRegionChange(e.target.value as RegionFilter)}
               className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
             >
-              <option value="All Regions">All 17 Operational Regions</option>
-              {ZETDC_OPERATIONAL_REGIONS.map((r) => (
-                <option key={r.id} value={r.name}>
-                  {r.name}
+              <option value="All Regions">All 5 Regions</option>
+              {ZETDC_REGIONS.map((r) => (
+                <option key={r} value={r}>
+                  {r}
                 </option>
               ))}
             </select>
@@ -215,10 +215,10 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
           </div>
         </div>
 
-        {/* 3. DISTRICT (83 Districts by 10 Provinces) */}
+        {/* 3. DISTRICT (18 ZETDC Operational Districts) */}
         <div className="space-y-0.5">
           <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase">
-            DISTRICT (83 DISTRICTS / 10 PROVINCES)
+            ZETDC OPERATIONAL DISTRICT (18)
           </label>
           <div className="relative">
             <select
@@ -226,12 +226,12 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
               onChange={(e) => onDistrictChange(e.target.value)}
               className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
             >
-              <option value="All Districts">All 83 ZETDC Districts</option>
-              {ZETDC_PROVINCES.map((prov) => (
-                <optgroup key={prov.name} label={`── ${prov.name} ──`}>
-                  {prov.districts.map((d) => (
-                    <option key={d} value={d}>
-                      {d}
+              <option value="All Districts">All 18 Operational Districts</option>
+              {ZETDC_REGIONS.filter((r) => selectedRegion === 'All Regions' || selectedRegion === r).map((region) => (
+                <optgroup key={region} label={`── ${region} ──`}>
+                  {ZETDC_DISTRICTS.filter((d) => d.region === region).map((d) => (
+                    <option key={d.id} value={d.name}>
+                      {d.name}
                     </option>
                   ))}
                 </optgroup>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { KpiMetric, CockpitTheme, RegionFilter, SimulationScenario, KpiCategory } from './types';
 import { INITIAL_KPIS } from './data/mockKpis';
+import { ZETDC_DISTRICTS } from './data/zetdcReferenceData';
 import { getKpiStatus } from './utils/gaugeHelpers';
 import { computeDisplayKpi } from './utils/mockDataEngine';
 import { AviationGauge } from './components/AviationGauge';
@@ -44,6 +45,15 @@ export default function App() {
   // with whatever region/district/customer-class/network-level filter is active.
   const handleApplyScenario = (scenario: SimulationScenario) => {
     setActiveScenario(scenario);
+  };
+
+  // Changing region clears any selected district that no longer belongs to it
+  const handleRegionChange = (region: RegionFilter) => {
+    setRegionFilter(region);
+    const currentDistrictRegion = ZETDC_DISTRICTS.find((d) => d.name === districtFilter)?.region;
+    if (region !== 'All Regions' && currentDistrictRegion && currentDistrictRegion !== region) {
+      setDistrictFilter('All Districts');
+    }
   };
 
   // Reset to initial mock data
@@ -131,7 +141,7 @@ export default function App() {
         theme={theme}
         onThemeChange={setTheme}
         selectedRegion={regionFilter}
-        onRegionChange={setRegionFilter}
+        onRegionChange={handleRegionChange}
         selectedDistrict={districtFilter}
         onDistrictChange={setDistrictFilter}
         selectedCustomerClass={customerClassFilter}
@@ -165,8 +175,8 @@ export default function App() {
         </div>
 
         {/* The 9-Instrument Aviation Cockpit Grid */}
-        <main className="flex-1 flex flex-col min-h-0 py-1">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3 xl:gap-4 2xl:gap-5 items-stretch lg:flex-1 lg:auto-rows-fr lg:min-h-0">
+        <main className="flex-1 flex flex-col py-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2.5 sm:gap-3 xl:gap-4 2xl:gap-5 items-center lg:flex-1 lg:auto-rows-fr">
             {filteredKpis.map((kpi) => (
               <AviationGauge
                 key={kpi.id}

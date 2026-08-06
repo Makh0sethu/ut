@@ -76,7 +76,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
 
   return (
     <div
-      className="relative group w-full h-full rounded-2xl p-2.5 sm:p-3 xl:p-4 2xl:p-5 transition-all duration-300 flex flex-col justify-between select-none shadow-md border bg-panel border-line text-ink hover:border-accent/50 hover:shadow-lg"
+      className="relative group w-full h-full min-h-[240px] max-h-[300px] rounded-2xl p-2.5 sm:p-3 xl:p-4 2xl:p-5 transition-all duration-300 flex flex-col justify-between select-none shadow-md border bg-panel border-line text-ink hover:border-accent/50 hover:shadow-lg"
     >
       {/* Instrument Header Info */}
       <div className="flex items-start justify-between gap-2 mb-1 z-10">
@@ -117,7 +117,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
       </div>
 
       {/* Core Aviation Instrument Bezel & Arc Gauge */}
-      <div className="relative my-0.5 flex items-center justify-center flex-1 min-h-0 overflow-hidden">
+      <div className="relative my-0.5 flex items-center justify-center flex-1 min-h-[120px] overflow-hidden">
         <div className="relative h-full max-w-full aspect-[5/4] flex items-center justify-center overflow-hidden">
           <svg viewBox="0 0 200 160" className="w-full h-full">
             {/* Outer Arc Frame Segment */}
