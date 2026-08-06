@@ -74,25 +74,25 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
   // Badge pill styling
   const getBadgeStyle = () => {
     if (kpi.badgeTag === 'DURATION' || kpi.badgeTag === 'EFFICIENCY') {
-      return 'border-red-800/80 bg-red-950/40 text-red-300';
+      return 'border-red-600 bg-red-500 text-white';
     }
     if (kpi.badgeTag === 'FREQUENCY' || kpi.badgeTag === 'RESPONSE' || kpi.badgeTag === 'CONNECTIONS') {
-      return 'border-amber-800/80 bg-amber-950/40 text-amber-300';
+      return 'border-amber-600 bg-amber-500 text-white';
     }
-    return 'border-accent/40 bg-accent/15 text-accent';
+    return 'border-accent-hover bg-accent text-white';
   };
 
   return (
     <div
-      className="relative group w-full max-w-xs mx-auto rounded-2xl p-2.5 xl:p-3.5 transition-all duration-300 flex flex-col justify-between select-none shadow-md border bg-panel border-line text-ink hover:border-accent/50 hover:shadow-lg"
+      className="relative group w-full h-full rounded-2xl p-2.5 sm:p-3 xl:p-4 2xl:p-5 transition-all duration-300 flex flex-col justify-between select-none shadow-md border bg-panel border-line text-ink hover:border-accent/50 hover:shadow-lg"
     >
       {/* Instrument Header Info */}
       <div className="flex items-start justify-between gap-2 mb-1 z-10">
         <div className="flex-1 min-w-0">
-          <h3 className="font-bold text-sm xl:text-base tracking-wider uppercase font-sans truncate text-ink">
+          <h3 className="font-bold text-sm xl:text-base 2xl:text-lg tracking-wider uppercase font-sans truncate text-ink">
             {kpi.name}
           </h3>
-          <p className="text-[11px] font-sans tracking-tight truncate mt-0.5 text-ink-muted font-medium">
+          <p className="text-[11px] xl:text-xs 2xl:text-sm font-sans tracking-tight truncate mt-0.5 text-ink-muted font-medium">
             {kpi.subtitle}
           </p>
         </div>
@@ -125,8 +125,8 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
       </div>
 
       {/* Core Aviation Instrument Bezel & Arc Gauge */}
-      <div className="relative my-0.5 flex items-center justify-center">
-        <div className="relative w-36 h-30 xl:w-40 xl:h-32 flex items-center justify-center overflow-hidden">
+      <div className="relative my-0.5 flex items-center justify-center flex-1 min-h-0 overflow-hidden">
+        <div className="relative h-full max-w-full aspect-[5/4] flex items-center justify-center overflow-hidden">
           <svg viewBox="0 0 200 160" className="w-full h-full">
             {/* Outer Arc Frame Segment */}
             {/* Green Arc Segment */}
@@ -230,7 +230,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
           <div className={`absolute bottom-8 w-3.5 h-3.5 rounded-full border-2 ${getPivotColor()}`} />
 
           {/* Value Display Box under gauge */}
-          <div className="absolute bottom-0 font-mono font-bold text-base xl:text-lg tracking-wider px-2.5 py-0.5 rounded-md shadow-inner border bg-accent text-white border-accent-hover">
+          <div className="absolute bottom-0 font-mono font-bold text-base xl:text-lg 2xl:text-xl tracking-wider px-2.5 py-0.5 xl:px-3 xl:py-1 rounded-md shadow-inner border bg-accent text-white border-accent-hover">
             {formatValue(kpi.value, kpi.unit)}
           </div>
         </div>

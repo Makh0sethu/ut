@@ -171,8 +171,8 @@ export default function App() {
         </div>
 
         {/* The 9-Instrument Aviation Cockpit Grid */}
-        <main className="flex-1 flex flex-col justify-center my-auto min-h-0 py-1">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3 xl:gap-4 items-stretch">
+        <main className="flex-1 flex flex-col min-h-0 py-1">
+          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr gap-2.5 sm:gap-3 xl:gap-4 2xl:gap-5 items-stretch min-h-0">
             {filteredKpis.map((kpi) => (
               <AviationGauge
                 key={kpi.id}
