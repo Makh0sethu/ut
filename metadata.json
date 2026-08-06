@@ -1,0 +1,6 @@
+{
+  "name": "Utility Cockpit - Aviation 6-Pack Dashboard",
+  "description": "Interactive aviation instrument cockpit dashboard for utility distribution and retail performance tracking 9 core KPIs with interactive analog dials and 3-point meters.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

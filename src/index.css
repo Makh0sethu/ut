@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/*
+  Izitho design tokens (ported from NMJTM/BIBLE.md + frontend/src/styles/bible.css).
+  Mapped to Tailwind v4 @theme so utilities like bg-accent, text-ink, border-line
+  are generated automatically and stay in sync with the design system.
+*/
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand accent (Izitho --accent-primary/hover/glow) */
+  --color-accent: #055fb3;
+  --color-accent-hover: #044b8e;
+  --color-accent-glow: rgba(5, 95, 179, 0.4);
+  --color-success: #10b981;
+
+  /* Dark surfaces (Izitho dark palette) */
+  --color-canvas: #121212;
+  --color-panel: #1e1e1e;
+  --color-panel-alt: #252525;
+  --color-panel-raised: #2e2e2e;
+  --color-line: #333333;
+
+  /* Light surfaces (Izitho light palette) */
+  --color-canvas-day: #fefefe;
+  --color-panel-day: #f8fafc;
+  --color-panel-alt-day: #f3f4f6;
+  --color-line-day: #e5e7eb;
+
+  /* Typography colors */
+  --color-ink: #f9fafb;
+  --color-ink-muted: #d1d5db;
+  --color-ink-faint: #9ca3af;
+  --color-ink-day: #111827;
+  --color-ink-muted-day: #4b5563;
+}
+
+@layer utilities {
+  .cockpit-bg {
+    background-color: var(--color-canvas);
+  }
+  .cockpit-header-bg {
+    background-color: var(--color-panel);
+    border-color: var(--color-line);
+  }
+  .instrument-bezel {
+    background-color: var(--color-panel-alt);
+    border: 3px solid var(--color-line);
+    box-shadow:
+      inset 0 0 30px rgba(0,0,0,0.8),
+      0 10px 20px -3px rgba(0,0,0,0.7);
+  }
+  .instrument-bezel-day {
+    background-color: var(--color-panel-day);
+    border: 3px solid var(--color-line-day);
+    box-shadow:
+      inset 0 0 20px rgba(0,0,0,0.1),
+      0 10px 15px -3px rgba(0,0,0,0.1);
+  }
+}
+
+@keyframes needle-float {
+  0%, 100% { transform: rotate(var(--angle)); }
+  50% { transform: rotate(calc(var(--angle) + 0.8deg)); }
+}
+

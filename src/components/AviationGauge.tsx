@@ -1,0 +1,341 @@
+import React, { useState } from 'react';
+import { KpiMetric, CockpitTheme } from '../types';
+import {
+  getKpiStatus,
+  calculateNeedleAngle,
+  formatValue,
+  describeSvgArc,
+} from '../utils/gaugeHelpers';
+import { SlidersHorizontal, Info, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+
+interface AviationGaugeProps {
+  kpi: KpiMetric;
+  theme: CockpitTheme;
+  onUpdateValue: (id: string, newValue: number) => void;
+  onOpenDetail: (kpi: KpiMetric) => void;
+}
+
+export const AviationGauge: React.FC<AviationGaugeProps> = ({
+  kpi,
+  theme,
+  onUpdateValue,
+  onOpenDetail,
+}) => {
+  const [showQuickControls, setShowQuickControls] = useState(false);
+  const status = getKpiStatus(kpi);
+  const needleAngle = calculateNeedleAngle(kpi.value, kpi.min, kpi.max);
+
+  // Calculate arc angles for Green, Amber, Red zones
+  // Angle range is -135deg to +135deg (total 270deg sweep)
+  const angleStart = -135;
+  const angleEnd = 135;
+
+  const greenValAngle = calculateNeedleAngle(kpi.greenThreshold, kpi.min, kpi.max);
+  const redValAngle = calculateNeedleAngle(kpi.redThreshold, kpi.min, kpi.max);
+
+  let greenArc: { start: number; end: number };
+  let amberArc: { start: number; end: number };
+  let redArc: { start: number; end: number };
+
+  if (!kpi.inverted) {
+    // Normal: Higher is better (0 to redThreshold = Red, redThreshold to greenThreshold = Amber, greenThreshold to max = Green)
+    redArc = { start: angleStart, end: redValAngle };
+    amberArc = { start: redValAngle, end: greenValAngle };
+    greenArc = { start: greenValAngle, end: angleEnd };
+  } else {
+    // Inverted: Lower is better (0 to greenThreshold = Green, greenThreshold to redThreshold = Amber, redThreshold to max = Red)
+    greenArc = { start: angleStart, end: greenValAngle };
+    amberArc = { start: greenValAngle, end: redValAngle };
+    redArc = { start: redValAngle, end: angleEnd };
+  }
+
+  // Quick increment step
+  const step = kpi.max > 50 ? 5 : kpi.max > 5 ? 0.1 : 0.05;
+
+  const handleNudge = (delta: number) => {
+    const newVal = Math.min(kpi.max, Math.max(kpi.min, Number((kpi.value + delta).toFixed(2))));
+    onUpdateValue(kpi.id, newVal);
+  };
+
+  // Determine trend relative to previous history point
+  const prevValue = kpi.history[kpi.history.length - 2] ?? kpi.value;
+  const diff = kpi.value - prevValue;
+  const isImproving = kpi.inverted ? diff < 0 : diff > 0;
+  const isDeteriorating = kpi.inverted ? diff > 0 : diff < 0;
+
+  // Pivot Hub Color matching reference image
+  const getPivotColor = () => {
+    if (kpi.id === 'saidi' || kpi.id === 'system_losses') return 'bg-red-500 border-red-300 shadow-[0_0_10px_rgba(239,68,68,0.8)]';
+    if (kpi.id === 'saifi' || kpi.id === 'response_time' || kpi.id === 'waiting_period') return 'bg-amber-400 border-amber-200 shadow-[0_0_10px_rgba(245,158,11,0.8)]';
+    if (kpi.id === 'access' || kpi.id === 'collection_index') return 'bg-emerald-400 border-emerald-200 shadow-[0_0_10px_rgba(16,185,129,0.8)]';
+    return 'bg-accent border-accent/30 shadow-[0_0_10px_rgba(5,95,179,0.8)]';
+  };
+
+  // Badge pill styling
+  const getBadgeStyle = () => {
+    if (kpi.badgeTag === 'DURATION' || kpi.badgeTag === 'EFFICIENCY') {
+      return 'border-red-800/80 bg-red-950/40 text-red-300';
+    }
+    if (kpi.badgeTag === 'FREQUENCY' || kpi.badgeTag === 'RESPONSE' || kpi.badgeTag === 'CONNECTIONS') {
+      return 'border-amber-800/80 bg-amber-950/40 text-amber-300';
+    }
+    return 'border-accent/40 bg-accent/15 text-accent';
+  };
+
+  // Theme styling rules
+  const isNight = theme === 'night-amber';
+  const isDay = theme === 'daylight';
+
+  return (
+    <div
+      className={`relative group w-full max-w-xs mx-auto rounded-2xl p-2.5 xl:p-3.5 transition-all duration-300 flex flex-col justify-between select-none shadow-xl border ${
+        isDay
+          ? 'bg-white border-accent/20 text-slate-900 shadow-slate-200/60 hover:border-accent hover:shadow-lg'
+          : isNight
+          ? 'bg-neutral-900 border-2 border-amber-900/40 text-amber-100 shadow-amber-950/20'
+          : 'bg-panel border-line text-slate-100 hover:border-accent/35'
+      }`}
+    >
+      {/* Instrument Header Info */}
+      <div className="flex items-start justify-between gap-2 mb-1 z-10">
+        <div className="flex-1 min-w-0">
+          <h3 className={`font-bold text-sm xl:text-base tracking-wider uppercase font-sans truncate ${
+            isDay ? 'text-slate-900' : 'text-white'
+          }`}>
+            {kpi.name}
+          </h3>
+          <p className={`text-[11px] font-sans tracking-tight truncate mt-0.5 ${
+            isDay ? 'text-slate-500 font-medium' : 'text-slate-400'
+          }`}>
+            {kpi.subtitle}
+          </p>
+        </div>
+
+        {/* Badge Tag Pill & Tools */}
+        <div className="flex flex-col items-end gap-1 shrink-0">
+          <div className={`px-2 py-0.5 rounded-full border text-[9px] font-mono font-bold tracking-widest uppercase ${getBadgeStyle()}`}>
+            {kpi.badgeTag}
+          </div>
+
+          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button
+              onClick={() => setShowQuickControls(!showQuickControls)}
+              title="Quick Telemetry Adjust"
+              className={`p-1 rounded transition-colors ${
+                showQuickControls ? 'bg-accent text-white' : 'hover:bg-panel-raised text-slate-400'
+              }`}
+            >
+              <SlidersHorizontal size={12} />
+            </button>
+            <button
+              onClick={() => onOpenDetail(kpi)}
+              title="Open Detail Inspector"
+              className="p-1 rounded hover:bg-panel-raised text-slate-400 transition-colors"
+            >
+              <Info size={12} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Core Aviation Instrument Bezel & Arc Gauge */}
+      <div className="relative my-0.5 flex items-center justify-center">
+        <div className="relative w-36 h-30 xl:w-40 xl:h-32 flex items-center justify-center overflow-hidden">
+          <svg viewBox="0 0 200 160" className="w-full h-full">
+            {/* Outer Arc Frame Segment */}
+            {/* Green Arc Segment */}
+            {greenArc.end > greenArc.start && (
+              <path
+                d={describeSvgArc(100, 100, 72, greenArc.start, greenArc.end)}
+                fill="none"
+                stroke="#10b981"
+                strokeWidth="10"
+                strokeLinecap="round"
+                className="opacity-90"
+              />
+            )}
+            {/* Amber Arc Segment */}
+            {amberArc.end > amberArc.start && (
+              <path
+                d={describeSvgArc(100, 100, 72, amberArc.start, amberArc.end)}
+                fill="none"
+                stroke="#f59e0b"
+                strokeWidth="10"
+                strokeLinecap="round"
+                className="opacity-90"
+              />
+            )}
+            {/* Red Arc Segment */}
+            {redArc.end > redArc.start && (
+              <path
+                d={describeSvgArc(100, 100, 72, redArc.start, redArc.end)}
+                fill="none"
+                stroke="#ef4444"
+                strokeWidth="10"
+                strokeLinecap="round"
+                className="opacity-90"
+              />
+            )}
+
+            {/* Perimeter White Tick Marks */}
+            {Array.from({ length: 15 }).map((_, i) => {
+              const tickAngle = -135 + i * (270 / 14);
+              const rad = ((tickAngle - 90) * Math.PI) / 180;
+              const outerR = 84;
+              const innerR = i % 2 === 0 ? 76 : 80;
+
+              const x1 = 100 + outerR * Math.cos(rad);
+              const y1 = 100 + outerR * Math.sin(rad);
+              const x2 = 100 + innerR * Math.cos(rad);
+              const y2 = 100 + innerR * Math.sin(rad);
+
+              return (
+                <line
+                  key={i}
+                  x1={x1}
+                  y1={y1}
+                  x2={x2}
+                  y2={y2}
+                  stroke={isDay ? '#1e293b' : '#ffffff'}
+                  strokeWidth={i % 2 === 0 ? 2 : 1}
+                  strokeOpacity={0.85}
+                />
+              );
+            })}
+
+            {/* Moving T-Bar Needle */}
+            <g
+              transform={`rotate(${needleAngle}, 100, 100)`}
+              className="transition-transform duration-500 ease-out"
+            >
+              {/* Pointer shaft */}
+              <line
+                x1="100"
+                y1="100"
+                x2="100"
+                y2="34"
+                stroke={isDay ? '#055fb3' : '#ffffff'}
+                strokeWidth="3.5"
+                strokeLinecap="round"
+              />
+              {/* Top T-bar head */}
+              <line
+                x1="93"
+                y1="34"
+                x2="107"
+                y2="34"
+                stroke={isDay ? '#055fb3' : '#ffffff'}
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+            </g>
+
+            {/* Center Pivot Base Hub Dot */}
+            <circle
+              cx="100"
+              cy="100"
+              r="8"
+              fill={isDay ? '#055fb3' : '#ffffff'}
+              className="drop-shadow-md"
+            />
+          </svg>
+
+          {/* Center Overlay Pivot Hub Color Badge */}
+          <div className={`absolute bottom-8 w-3.5 h-3.5 rounded-full border-2 ${getPivotColor()}`} />
+
+          {/* Value Display Box under gauge */}
+          <div className={`absolute bottom-0 font-mono font-bold text-base xl:text-lg tracking-wider px-2.5 py-0.5 rounded-md shadow-inner border ${
+            isDay
+              ? 'bg-[#055fb3] text-white border-accent-hover'
+              : 'bg-panel text-white border-line'
+          }`}>
+            {formatValue(kpi.value, kpi.unit)}
+          </div>
+        </div>
+      </div>
+
+      {/* Quick Interactive Slider Drawer */}
+      {showQuickControls && (
+        <div className="mt-2 p-2.5 bg-panel-alt border border-line rounded-xl animate-in fade-in duration-200 z-10 space-y-2">
+          <div className="flex items-center justify-between text-xs font-mono text-slate-300">
+            <span>Telemetry Tuning</span>
+            <span className="font-bold text-accent">
+              {formatValue(kpi.value, kpi.unit)}
+            </span>
+          </div>
+          <input
+            type="range"
+            min={kpi.min}
+            max={kpi.max}
+            step={step}
+            value={kpi.value}
+            onChange={(e) => onUpdateValue(kpi.id, parseFloat(e.target.value))}
+            className="w-full accent-[#055fb3] h-1.5 bg-panel-alt rounded-lg cursor-pointer"
+          />
+          <div className="flex items-center justify-between gap-1">
+            <button
+              onClick={() => handleNudge(-step * 2)}
+              className="px-2 py-0.5 bg-panel-alt hover:bg-panel-raised text-xs font-mono rounded text-slate-200"
+            >
+              -{step * 2}
+            </button>
+            <button
+              onClick={() => handleNudge(-step)}
+              className="px-2 py-0.5 bg-panel-alt hover:bg-panel-raised text-xs font-mono rounded text-slate-200"
+            >
+              -{step}
+            </button>
+            <button
+              onClick={() => onUpdateValue(kpi.id, kpi.target)}
+              className="px-2 py-0.5 bg-accent/15 hover:bg-accent/25 text-xs font-mono rounded text-accent border border-accent/40"
+            >
+              Target ({kpi.target})
+            </button>
+            <button
+              onClick={() => handleNudge(step)}
+              className="px-2 py-0.5 bg-panel-alt hover:bg-panel-raised text-xs font-mono rounded text-slate-200"
+            >
+              +{step}
+            </button>
+            <button
+              onClick={() => handleNudge(step * 2)}
+              className="px-2 py-0.5 bg-panel-alt hover:bg-panel-raised text-xs font-mono rounded text-slate-200"
+            >
+              +{step * 2}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Footer Meter & Direction Status (Matching exact reference image layout) */}
+      <div className="mt-2 pt-2 border-t border-line flex items-center justify-between text-xs font-mono">
+        {/* Left: TARGET —   TREND — */}
+        <div className="flex items-center gap-3 text-slate-400 text-[11px]">
+          <span>
+            TARGET <strong className="text-slate-200 font-bold ml-1">{kpi.target}</strong>
+          </span>
+          <span className="flex items-center gap-1">
+            TREND
+            {isImproving ? (
+              <TrendingUp size={11} className="text-emerald-400 inline ml-0.5" />
+            ) : isDeteriorating ? (
+              <TrendingDown size={11} className="text-red-400 inline ml-0.5" />
+            ) : (
+              <Minus size={11} className="text-slate-500 inline ml-0.5" />
+            )}
+          </span>
+        </div>
+
+        {/* Right: LOWER IS BETTER / HIGHER IS BETTER */}
+        <div className="font-mono font-bold text-[10px] tracking-wider uppercase">
+          {kpi.inverted ? (
+            <span className="text-red-400">LOWER IS BETTER</span>
+          ) : (
+            <span className="text-accent">HIGHER IS BETTER</span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
