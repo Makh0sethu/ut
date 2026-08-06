@@ -82,10 +82,7 @@ export const ZETDC_NET_METERING_POLICY: NetMeteringPolicy = {
 
 // 5. Grid Node Level Hierarchy
 export const ZETDC_NETWORK_LEVELS: NetworkLevel[] = [
-  { id: 'region', name: 'Region Node (150 MVA)', defaultCapacityMva: 150.0, defaultLossPercent: 3.5 },
-  { id: 'district', name: 'District Node (40 MVA)', defaultCapacityMva: 40.0, defaultLossPercent: 4.5 },
-  { id: 'depot', name: 'Depot Node (12.5 MVA)', defaultCapacityMva: 12.5, defaultLossPercent: 6.0 },
-  { id: 'hv_33kv', name: 'High Voltage (33 kV)', voltageKv: '33kV' },
-  { id: 'mv_11kv', name: 'Medium Voltage (11 kV)', voltageKv: '11kV' },
-  { id: 'lv_04kv', name: 'Low Voltage (400V)', voltageKv: '0.4kV' },
+  { id: 'hv_33kv', name: 'High Voltage ' },
+  { id: 'mv_11kv', name: 'Medium Voltage' },
+  { id: 'lv_04kv', name: 'Low Voltage' },
 ];
