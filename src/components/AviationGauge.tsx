@@ -63,14 +63,6 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
   const isImproving = kpi.inverted ? diff < 0 : diff > 0;
   const isDeteriorating = kpi.inverted ? diff > 0 : diff < 0;
 
-  // Pivot Hub Color matching reference image
-  const getPivotColor = () => {
-    if (kpi.id === 'saidi' || kpi.id === 'system_losses') return 'bg-red-500 border-red-300 shadow-[0_0_10px_rgba(239,68,68,0.8)]';
-    if (kpi.id === 'saifi' || kpi.id === 'response_time' || kpi.id === 'waiting_period') return 'bg-amber-400 border-amber-200 shadow-[0_0_10px_rgba(245,158,11,0.8)]';
-    if (kpi.id === 'access' || kpi.id === 'collection_index') return 'bg-emerald-400 border-emerald-200 shadow-[0_0_10px_rgba(16,185,129,0.8)]';
-    return 'bg-accent border-accent/30 shadow-[0_0_10px_rgba(5,95,179,0.8)]';
-  };
-
   // Badge pill styling
   const getBadgeStyle = () => {
     if (kpi.badgeTag === 'DURATION' || kpi.badgeTag === 'EFFICIENCY') {
@@ -191,8 +183,8 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
 
             {/* Moving T-Bar Needle */}
             <g
-              transform={`rotate(${needleAngle}, 100, 100)`}
-              className="transition-transform duration-500 ease-out"
+              style={{ transform: `rotate(${needleAngle}deg)`, transformOrigin: '100px 100px' }}
+              className="transition-transform duration-700 ease-in-out"
             >
               {/* Pointer shaft */}
               <line
@@ -225,9 +217,6 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
               className="drop-shadow-md"
             />
           </svg>
-
-          {/* Center Overlay Pivot Hub Color Badge */}
-          <div className={`absolute bottom-8 w-3.5 h-3.5 rounded-full border-2 ${getPivotColor()}`} />
 
           {/* Value Display Box under gauge */}
           <div className="absolute bottom-0 font-mono font-bold text-base xl:text-lg 2xl:text-xl tracking-wider px-2.5 py-0.5 xl:px-3 xl:py-1 rounded-md shadow-inner border bg-accent text-white border-accent-hover">

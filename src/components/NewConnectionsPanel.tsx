@@ -45,20 +45,11 @@ export const NewConnectionsPanel: React.FC<NewConnectionsPanelProps> = ({
             New Connections
           </span>
         </div>
-        <span
-          className={`flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase border ${
-            isComplete
-              ? 'bg-emerald-950/60 border-emerald-500 text-emerald-300'
-              : 'bg-accent/10 border-accent/30 text-accent'
-          }`}
-        >
-          <span className={`w-1.5 h-1.5 rounded-full ${isComplete ? 'bg-emerald-400' : 'bg-accent animate-pulse'}`} />
-          {isComplete ? 'TARGET MET' : 'LIVE'}
-        </span>
+   
       </div>
 
       <p className="text-[10px] font-mono tracking-tight leading-snug text-ink-muted">
-        Cumulative energizations, current reporting period
+        Mock data for connections made this year.
       </p>
 
       {/* Rising Bar Chart */}

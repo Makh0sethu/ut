@@ -21,26 +21,26 @@ export const AnnunciatorStrip: React.FC<AnnunciatorStripProps> = ({ kpis, onSele
   const greenCount = statuses.filter((s) => s.status === 'green').length;
 
   return (
-    <div className="bg-canvas border-y border-line py-2 px-4 shadow-xl">
+    <div className="bg-accent border border-accent-hover rounded-xl py-2 px-4 shadow-xl">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
         {/* Annunciator Status Overview Badge */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider font-bold text-slate-400">
+          <div className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider font-bold text-white/80">
             <span>ANNUNCIATOR PANEL</span>
-            <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
           </div>
 
           <div className="flex items-center gap-2 font-mono text-xs">
-            <span className="px-2.5 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-700 text-emerald-300 font-bold flex items-center gap-1">
+            <span className="px-2.5 py-0.5 rounded-full border border-emerald-600 bg-emerald-500 text-white font-bold flex items-center gap-1">
               <ShieldCheck size={12} /> {greenCount} NOMINAL
             </span>
             {amberCount > 0 && (
-              <span className="px-2.5 py-0.5 rounded-full bg-amber-950/80 border border-amber-700 text-amber-300 font-bold flex items-center gap-1">
+              <span className="px-2.5 py-0.5 rounded-full border border-amber-600 bg-amber-500 text-white font-bold flex items-center gap-1">
                 <AlertTriangle size={12} /> {amberCount} CAUTION
               </span>
             )}
             {redCount > 0 && (
-              <span className="px-2.5 py-0.5 rounded-full bg-red-950/80 border border-red-700 text-red-300 font-bold flex items-center gap-1 animate-pulse">
+              <span className="px-2.5 py-0.5 rounded-full border border-red-600 bg-red-500 text-white font-bold flex items-center gap-1 animate-pulse">
                 <AlertCircle size={12} /> {redCount} WARNING
               </span>
             )}
@@ -59,9 +59,9 @@ export const AnnunciatorStrip: React.FC<AnnunciatorStripProps> = ({ kpis, onSele
                 onClick={() => onSelectKpi(s.id)}
                 className={`px-2 py-1.5 rounded-lg font-mono text-[10px] uppercase font-bold tracking-tight text-center transition-all duration-300 border flex flex-col items-center justify-center ${
                   isRed
-                    ? 'bg-red-950/90 text-red-300 border-red-500 shadow-[0_0_12px_rgba(239,68,68,0.5)] animate-pulse'
+                    ? 'bg-red-500 text-white border-red-600 shadow-[0_0_12px_rgba(239,68,68,0.5)] animate-pulse'
                     : isAmber
-                    ? 'bg-amber-950/80 text-amber-300 border-amber-500/80 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+                    ? 'bg-amber-500 text-white border-amber-600 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
                     : 'bg-panel text-accent border-line hover:bg-panel-raised hover:border-accent/40'
                 }`}
               >

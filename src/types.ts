@@ -39,5 +39,8 @@ export interface SimulationScenario {
   name: string;
   description: string;
   badge: string;
-  values: Record<string, number>;
+  // Multiplier per KPI id, relative to that KPI's nominal baseline (1 = no change).
+  // Applied on top of the region/district/customer-class/network-level value, so a
+  // scenario scales whatever the current filters already show rather than replacing it.
+  weights: Record<string, number>;
 }

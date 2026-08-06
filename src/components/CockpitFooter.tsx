@@ -1,15 +1,21 @@
 import React from 'react';
-import { KpiMetric, CockpitTheme } from '../types';
+import { KpiMetric, CockpitTheme, SimulationScenario } from '../types';
 import { getKpiStatus } from '../utils/gaugeHelpers';
-import { ShieldCheck, Zap, Download, Radio } from 'lucide-react';
+import { ShieldCheck, Zap, Download, Radio, MapPin } from 'lucide-react';
 
 interface CockpitFooterProps {
   kpis: KpiMetric[];
   theme: CockpitTheme;
   onExportReport: () => void;
+  activeScenario: SimulationScenario | null;
+  location: string;
 }
 
-export const CockpitFooter: React.FC<CockpitFooterProps> = ({ kpis, theme, onExportReport }) => {
+export const CockpitFooter: React.FC<CockpitFooterProps> = ({
+  kpis,
+  onExportReport,
+  location,
+}) => {
   const statuses = kpis.map((k) => getKpiStatus(k));
   const greenCount = statuses.filter((s) => s === 'green').length;
   const healthIndex = Math.round((greenCount / kpis.length) * 100);
@@ -45,10 +51,18 @@ export const CockpitFooter: React.FC<CockpitFooterProps> = ({ kpis, theme, onExp
             </div>
           </div>
 
-          <div className="hidden sm:flex items-center gap-2 border-l pl-4 border-slate-200 text-slate-500">
-            <Radio size={14} className="text-accent animate-pulse" />
-            <span>TELEMETRY STREAM: 100 HZ ACTIVE</span>
-          </div>
+       
+
+            <div className="flex items-center gap-1.5 border-l pl-3 border-slate-200">
+              <MapPin size={14} className="text-accent" />
+              <div className="flex flex-col leading-tight">
+                <span className="text-[9px] uppercase font-sans tracking-wider text-slate-500 font-semibold">
+                  Location
+                </span>
+                <span className="text-xs font-bold text-slate-900">{location}</span>
+              </div>
+            </div>
+          
         </div>
 
         {/* Category Health Indicators & Utility Branding Logos */}
@@ -63,16 +77,13 @@ export const CockpitFooter: React.FC<CockpitFooterProps> = ({ kpis, theme, onExp
             <span className="text-[11px] font-sans font-semibold text-slate-800">ZETDC Operational Cockpit</span>
           </div>
 
-          <div className="flex items-center gap-1.5">
-            <ShieldCheck size={14} className="text-emerald-500" />
-            <span className="font-semibold">9 KPI COCKPIT ACTIVE</span>
-          </div>
+          
 
           <button
             onClick={onExportReport}
             className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border transition-colors font-sans text-xs font-semibold bg-accent hover:bg-accent-hover text-white border-accent-hover shadow-md"
           >
-            <Download size={13} /> EXPORT FLIGHT BRIEFING
+            <Download size={13} /> EXPORT
           </button>
         </div>
       </div>

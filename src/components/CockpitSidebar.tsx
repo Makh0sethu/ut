@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CockpitTheme, RegionFilter, SimulationScenario, KpiCategory } from '../types';
 import { PRESET_SCENARIOS } from '../data/mockKpis';
 import {
@@ -6,22 +6,15 @@ import {
   ZETDC_PROVINCES,
   ZETDC_CUSTOMER_CATEGORIES,
   ZETDC_NETWORK_LEVELS,
-  ZETDC_NET_METERING_POLICY,
 } from '../data/zetdcReferenceData';
 import {
-  Activity,
   RefreshCw,
-  Play,
-  Pause,
   Download,
-  Flame,
-  Zap,
   ChevronDown,
   LayoutGrid,
   Sliders,
   Menu,
   X,
-  FileSpreadsheet,
 } from 'lucide-react';
 
 interface CockpitSidebarProps {
@@ -29,11 +22,17 @@ interface CockpitSidebarProps {
   onThemeChange: (theme: CockpitTheme) => void;
   selectedRegion: RegionFilter;
   onRegionChange: (region: RegionFilter) => void;
+  selectedDistrict: string;
+  onDistrictChange: (district: string) => void;
+  selectedCustomerClass: string;
+  onCustomerClassChange: (customerClass: string) => void;
+  selectedNetworkLevel: string;
+  onNetworkLevelChange: (networkLevel: string) => void;
+  reportingPeriod: string;
+  onReportingPeriodChange: (period: string) => void;
   categoryFilter: KpiCategory | 'ALL';
   onCategoryChange: (category: KpiCategory | 'ALL') => void;
   onApplyScenario: (scenario: SimulationScenario) => void;
-  isSimulating: boolean;
-  onToggleSimulation: () => void;
   onResetData: () => void;
   onExportReport: () => void;
   hasRedAlerts: boolean;
@@ -43,15 +42,20 @@ interface CockpitSidebarProps {
 }
 
 export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
-  theme,
-  onThemeChange,
+ 
   selectedRegion,
   onRegionChange,
+  selectedDistrict,
+  onDistrictChange,
+  selectedCustomerClass,
+  onCustomerClassChange,
+  selectedNetworkLevel,
+  onNetworkLevelChange,
+  reportingPeriod,
+  onReportingPeriodChange,
   categoryFilter,
   onCategoryChange,
   onApplyScenario,
-  isSimulating,
-  onToggleSimulation,
   onResetData,
   onExportReport,
   hasRedAlerts,
@@ -59,98 +63,67 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
   isMobileOpen,
   onToggleMobile,
 }) => {
-  const [reportingPeriod, setReportingPeriod] = useState('Q3 2026');
-  const [districtFilter, setDistrictFilter] = useState('All Districts');
-  const [customerClassFilter, setCustomerClassFilter] = useState('All Classes');
-  const [networkLevelFilter, setNetworkLevelFilter] = useState('All Voltage Levels');
 
   const content = (
     <div className="flex flex-col h-full justify-between p-4 space-y-4 select-none">
       {/* Top Branding Section with Dual Official Utility Logos */}
-      <div className="space-y-3 pb-3.5 border-b border-line">
+      <div className="space-y-3 pb-3.5 border-b border-white/20">
         {/* Large Prominent Dual Logos Header */}
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-center gap-6">
           {/* Top Left Logo (ZESA Crest Shield) */}
           <div className="flex flex-col items-center gap-1">
-            <div className="w-16 h-16 xl:w-20 xl:h-20 shrink-0 flex items-center justify-center p-1.5 bg-white rounded-2xl border-2 border-accent/30 shadow-xl transition-transform hover:scale-105">
+            <div className="w-20 h-20 xl:w-24 xl:h-24 shrink-0 flex items-center justify-center p-1.5 rounded-full shadow-xl transition-transform hover:scale-105">
               <img
                 src="/zesa-logo.png"
                 alt="ZESA Holdings Crest Logo"
                 className="w-full h-full object-contain filter drop-shadow"
               />
             </div>
-            <span className="text-[9px] font-mono font-bold tracking-widest text-ink-faint uppercase">
+            <span className="text-[9px] font-mono font-bold tracking-widest text-white/70 uppercase">
               ZESA HOLDINGS
-            </span>
-          </div>
-
-          {/* Master Status Warning Lamp */}
-          <div className="flex flex-col items-center gap-1">
-            {hasRedAlerts ? (
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-950/90 border border-red-500 text-red-300 font-mono text-[10px] font-extrabold animate-pulse shadow-[0_0_16px_rgba(239,68,68,0.6)]">
-                <Flame size={13} className="text-red-400" />
-                <span>MASTER WARNING</span>
-              </div>
-            ) : hasAmberAlerts ? (
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-950/90 border border-amber-500 text-amber-300 font-mono text-[10px] font-extrabold shadow-md">
-                <Activity size={13} className="text-amber-400" />
-                <span>MASTER CAUTION</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-950/90 border border-emerald-500 text-emerald-300 font-mono text-[10px] font-extrabold shadow-md">
-                <Zap size={13} className="text-emerald-400" />
-                <span>SYSTEMS OPTIMAL</span>
-              </div>
-            )}
-            <span className="text-[9px] font-mono font-medium text-ink-faint tracking-wider uppercase">
-              STATUS TELEMETRY
             </span>
           </div>
 
           {/* Top Right Logo (ZETDC Emblem Roundel) */}
           <div className="flex flex-col items-center gap-1">
-            <div className="w-16 h-16 xl:w-20 xl:h-20 shrink-0 rounded-full bg-white p-1.5 border-2 border-accent shadow-xl flex items-center justify-center transition-transform hover:scale-105">
+            <div className="w-20 h-20 xl:w-24 xl:h-24 shrink-0 rounded-full p-1.5 shadow-xl flex items-center justify-center transition-transform hover:scale-105">
               <img
                 src="/zetdc-logo.png"
                 alt="ZETDC Official Emblem Logo"
                 className="w-full h-full object-contain"
               />
             </div>
-            <span className="text-[9px] font-mono font-bold tracking-widest text-accent uppercase">
-              ZETDC UTILITY
+            <span className="text-[9px] font-mono font-bold tracking-widest text-white uppercase">
+              ZETDC 
             </span>
           </div>
         </div>
 
         {/* Title Header */}
-        <div className="pt-1">
-          <div className="inline-block px-2 py-0.5 rounded bg-accent/10 border border-accent/30 text-accent text-[10px] font-mono font-bold tracking-widest uppercase mb-1">
-            NMJTM • MODEL SYSTEM
-          </div>
-          <h1 className="text-lg xl:text-xl font-black tracking-wider text-ink uppercase font-sans leading-tight">
-            <span className="text-accent font-extrabold block">ZETDC PERFORMANCE</span>
-            <span className="text-xs text-ink-muted font-semibold tracking-wide block">
-              Distribution & Retail Cockpit
+        <div className="pt-1 text-center">
+
+          <h1 className="text-lg xl:text-xl font-black tracking-wider text-white uppercase font-sans leading-tight">
+            <span className="text-white font-extrabold block">ZESA PERFORMANCE</span>
+            <span className="text-xs text-white/70 font-semibold tracking-wide block">
+              Distribution & Retail Dashboard
             </span>
           </h1>
-          <p className="text-[10px] text-ink-faint font-mono tracking-tight mt-1">
-            Executive BI Aviation Flight Deck Grid
-          </p>
+        
         </div>
       </div>
 
       {/* Category Panel Selection */}
       <div className="space-y-1.5">
-        <label className="text-[10px] font-mono font-bold tracking-wider text-ink-faint uppercase flex items-center gap-1">
-          <LayoutGrid size={12} className="text-accent" />
-          <span>INSTRUMENT PANEL FILTER</span>
+        <label className="text-[10px] font-mono font-bold tracking-wider text-white/70 uppercase flex items-center gap-1">
+          <LayoutGrid size={12} className="text-white" />
+          <span>DEMO FILTER</span>
         </label>
         <div className="grid grid-cols-2 gap-1.5 text-xs font-mono font-bold">
           <button
             onClick={() => onCategoryChange('ALL')}
             className={`px-2.5 py-1.5 rounded-xl transition-all text-left flex items-center justify-between ${
               categoryFilter === 'ALL'
-                ? 'bg-accent text-white shadow-md'
+                ? 'bg-accent-hover text-white shadow-lg ring-2 ring-white/60'
                 : 'bg-panel-alt hover:bg-panel-raised text-ink-muted border border-line'
             }`}
           >
@@ -161,7 +134,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             onClick={() => onCategoryChange('Reliability & Operations')}
             className={`px-2.5 py-1.5 rounded-xl transition-all text-left flex items-center justify-between ${
               categoryFilter === 'Reliability & Operations'
-                ? 'bg-accent text-white shadow-md'
+                ? 'bg-accent-hover text-white shadow-lg ring-2 ring-white/60'
                 : 'bg-panel-alt hover:bg-panel-raised text-ink-muted border border-line'
             }`}
           >
@@ -172,7 +145,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             onClick={() => onCategoryChange('Commercial & Revenue')}
             className={`px-2.5 py-1.5 rounded-xl transition-all text-left flex items-center justify-between ${
               categoryFilter === 'Commercial & Revenue'
-                ? 'bg-accent text-white shadow-md'
+                ? 'bg-accent-hover text-white shadow-lg ring-2 ring-white/60'
                 : 'bg-panel-alt hover:bg-panel-raised text-ink-muted border border-line'
             }`}
           >
@@ -183,7 +156,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             onClick={() => onCategoryChange('Customer & Access')}
             className={`px-2.5 py-1.5 rounded-xl transition-all text-left flex items-center justify-between ${
               categoryFilter === 'Customer & Access'
-                ? 'bg-accent text-white shadow-md'
+                ? 'bg-accent-hover text-white shadow-lg ring-2 ring-white/60'
                 : 'bg-panel-alt hover:bg-panel-raised text-ink-muted border border-line'
             }`}
           >
@@ -208,7 +181,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
           <div className="relative">
             <select
               value={reportingPeriod}
-              onChange={(e) => setReportingPeriod(e.target.value)}
+              onChange={(e) => onReportingPeriodChange(e.target.value)}
               className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
             >
               <option value="Q3 2026">Q3 2026</option>
@@ -249,8 +222,8 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
           </label>
           <div className="relative">
             <select
-              value={districtFilter}
-              onChange={(e) => setDistrictFilter(e.target.value)}
+              value={selectedDistrict}
+              onChange={(e) => onDistrictChange(e.target.value)}
               className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
             >
               <option value="All Districts">All 83 ZETDC Districts</option>
@@ -275,8 +248,8 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
           </label>
           <div className="relative">
             <select
-              value={customerClassFilter}
-              onChange={(e) => setCustomerClassFilter(e.target.value)}
+              value={selectedCustomerClass}
+              onChange={(e) => onCustomerClassChange(e.target.value)}
               className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
             >
               <option value="All Classes">All 8 Customer Categories</option>
@@ -297,8 +270,8 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
           </label>
           <div className="relative">
             <select
-              value={networkLevelFilter}
-              onChange={(e) => setNetworkLevelFilter(e.target.value)}
+              value={selectedNetworkLevel}
+              onChange={(e) => onNetworkLevelChange(e.target.value)}
               className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
             >
               <option value="All Voltage Levels">All Grid Node Levels</option>
@@ -313,34 +286,9 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
         </div>
       </div>
 
-      {/* Policy Data Net Metering Card */}
-      <div className="bg-canvas border border-line rounded-xl p-2.5 text-[11px] font-mono space-y-1">
-        <div className="flex items-center justify-between text-accent font-bold text-[10px] uppercase">
-          <span className="flex items-center gap-1">
-            <FileSpreadsheet size={12} />
-            POLICY DATA & TARIFFS
-          </span>
-          <span className="px-1.5 py-0.2 bg-accent/10 border border-accent/30 rounded text-[9px]">
-            ZERA Active
-          </span>
-        </div>
-        <div className="flex items-center justify-between text-ink-muted text-[10px]">
-          <span>Ref Tariff:</span>
-          <span className="font-bold text-ink">${ZETDC_NET_METERING_POLICY.referenceTariff}/kWh</span>
-        </div>
-        <div className="flex items-center justify-between text-ink-muted text-[10px]">
-          <span>Net Billing Domestic:</span>
-          <span className="font-bold text-emerald-500">85c / $1 export</span>
-        </div>
-        <div className="flex items-center justify-between text-ink-muted text-[10px]">
-          <span>Net Billing Commercial:</span>
-          <span className="font-bold text-accent">80c / $1 export</span>
-        </div>
-      </div>
-
       {/* Preset Flight Scenarios */}
       <div className="space-y-1.5">
-        <label className="text-[10px] font-mono font-bold text-ink-faint uppercase block">
+        <label className="text-[10px] font-mono font-bold text-white/70 uppercase block">
           FLIGHT SCENARIOS
         </label>
         <div className="grid grid-cols-2 gap-1.5">
@@ -360,37 +308,26 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
       </div>
 
       {/* Telemetry Actions & Theme Control */}
-      <div className="pt-2 border-t border-line space-y-2">
-        <div className="flex items-center justify-between gap-1.5">
-          {/* Live Telemetry Auto-Stream Simulator */}
-          <button
-            onClick={onToggleSimulation}
-            className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-xs font-bold transition-all border ${
-              isSimulating
-                ? 'bg-accent text-white border-accent shadow-[0_0_12px_rgba(5,95,179,0.5)]'
-                : 'bg-panel hover:bg-panel-raised text-accent border-line'
-            }`}
-          >
-            {isSimulating ? <Pause size={13} /> : <Play size={13} />}
-            <span>{isSimulating ? 'SIM LIVE' : 'START SIM'}</span>
-          </button>
-
+      <div className="pt-2 border-t border-white/20 space-y-2">
+        <div className="flex items-center justify-center gap-1.5">
           {/* Reset */}
           <button
             onClick={onResetData}
             title="Reset telemetry metrics"
-            className="p-2 rounded-xl bg-panel hover:bg-panel-raised text-ink-muted border border-line transition-colors"
+            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-panel hover:bg-panel-raised text-ink-muted border border-line transition-colors font-mono text-xs font-bold"
           >
             <RefreshCw size={14} />
+            <span>RESET</span>
           </button>
 
           {/* Export */}
           <button
             onClick={onExportReport}
             title="Export Cockpit Report"
-            className="p-2 rounded-xl bg-panel hover:bg-panel-raised text-ink-muted border border-line transition-colors"
+            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-panel hover:bg-panel-raised text-ink-muted border border-line transition-colors font-mono text-xs font-bold"
           >
             <Download size={14} />
+            <span>EXPORT</span>
           </button>
         </div>
       </div>
@@ -400,30 +337,30 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
   return (
     <>
       {/* Mobile Sticky Header Bar with Menu Drawer Toggle */}
-      <div className="lg:hidden bg-canvas border-b border-line p-2.5 flex items-center justify-between sticky top-0 z-30 select-none">
+      <div className="lg:hidden bg-accent border-b border-accent-hover p-2.5 flex items-center justify-between sticky top-0 z-30 select-none">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 p-0.5 bg-white rounded-lg border border-white/20 flex items-center justify-center">
+          <div className="w-11 h-11 p-0.5 rounded-full flex items-center justify-center">
             <img src="/zesa-logo.png" alt="ZESA Logo" className="w-full h-full object-contain" />
           </div>
-          <div className="w-9 h-9 p-0.5 bg-white rounded-full border border-accent flex items-center justify-center">
+          <div className="w-11 h-11 p-0.5 rounded-full flex items-center justify-center">
             <img src="/zetdc-logo.png" alt="ZETDC Logo" className="w-full h-full object-contain" />
           </div>
           <div>
             <span className="font-bold text-xs text-white font-sans block leading-none">ZETDC COCKPIT</span>
-            <span className="text-[9px] text-accent font-mono">NMJTM MODEL</span>
+            <span className="text-[9px] text-white/70 font-mono">NMJTM MODEL</span>
           </div>
         </div>
 
         <button
           onClick={onToggleMobile}
-          className="p-2 rounded-xl bg-panel-alt border border-line text-accent hover:text-white"
+          className="p-2 rounded-xl bg-white/15 border border-white/30 text-white hover:bg-white/25"
         >
           {isMobileOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
       </div>
 
       {/* Desktop Fixed Left Side Panel */}
-      <aside className="hidden lg:block w-72 xl:w-80 shrink-0 h-screen overflow-y-auto border-r transition-colors duration-300 bg-canvas border-line text-slate-100">
+      <aside className="hidden lg:block w-72 xl:w-80 shrink-0 h-screen overflow-y-auto border-r transition-colors duration-300 bg-accent border-accent-hover text-white">
         {content}
       </aside>
 
@@ -431,7 +368,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
       {isMobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex">
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" onClick={onToggleMobile} />
-          <aside className="relative w-80 max-w-[85vw] h-full bg-canvas text-slate-100 overflow-y-auto z-10 shadow-2xl border-r border-line">
+          <aside className="relative w-80 max-w-[85vw] h-full bg-accent text-white overflow-y-auto z-10 shadow-2xl border-r border-accent-hover">
             {content}
           </aside>
         </div>

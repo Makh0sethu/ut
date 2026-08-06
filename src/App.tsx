@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { KpiMetric, CockpitTheme, RegionFilter, SimulationScenario, KpiCategory } from './types';
 import { INITIAL_KPIS } from './data/mockKpis';
 import { getKpiStatus } from './utils/gaugeHelpers';
+import { computeDisplayKpi } from './utils/mockDataEngine';
 import { AviationGauge } from './components/AviationGauge';
 import { CockpitSidebar } from './components/CockpitSidebar';
 import { AnnunciatorStrip } from './components/AnnunciatorStrip';
@@ -15,8 +16,12 @@ export default function App() {
   const [kpis, setKpis] = useState<KpiMetric[]>(INITIAL_KPIS);
   const [theme, setTheme] = useState<CockpitTheme>('daylight');
   const [regionFilter, setRegionFilter] = useState<RegionFilter>('All Regions');
+  const [districtFilter, setDistrictFilter] = useState<string>('All Districts');
+  const [customerClassFilter, setCustomerClassFilter] = useState<string>('All Classes');
+  const [networkLevelFilter, setNetworkLevelFilter] = useState<string>('All Voltage Levels');
+  const [reportingPeriod, setReportingPeriod] = useState<string>('Q3 2026');
   const [categoryFilter, setCategoryFilter] = useState<KpiCategory | 'ALL'>('ALL');
-  const [isSimulating, setIsSimulating] = useState<boolean>(false);
+  const [activeScenario, setActiveScenario] = useState<SimulationScenario | null>(null);
   const [selectedKpiForDetail, setSelectedKpiForDetail] = useState<KpiMetric | null>(null);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
 
@@ -34,26 +39,17 @@ export default function App() {
     );
   };
 
-  // Apply simulation scenario
+  // Apply simulation scenario. The scenario itself is just a weight multiplier
+  // (see computeDisplayKpi) — it doesn't touch the underlying kpis, so it composes
+  // with whatever region/district/customer-class/network-level filter is active.
   const handleApplyScenario = (scenario: SimulationScenario) => {
-    setKpis((prev) =>
-      prev.map((k) => {
-        if (scenario.values[k.id] !== undefined) {
-          const newVal = scenario.values[k.id];
-          return {
-            ...k,
-            value: newVal,
-            history: [...k.history.slice(1), newVal],
-          };
-        }
-        return k;
-      })
-    );
+    setActiveScenario(scenario);
   };
 
   // Reset to initial mock data
   const handleResetData = () => {
     setKpis(INITIAL_KPIS);
+    setActiveScenario(null);
   };
 
   // Export report flight brief JSON
@@ -61,7 +57,11 @@ export default function App() {
     const reportData = {
       timestamp: new Date().toISOString(),
       regionSector: regionFilter,
-      kpis: kpis.map((k) => ({
+      district: districtFilter,
+      customerClass: customerClassFilter,
+      networkLevel: networkLevelFilter,
+      reportingPeriod,
+      kpis: displayedKpis.map((k) => ({
         code: k.code,
         name: k.name,
         value: k.value,
@@ -82,51 +82,39 @@ export default function App() {
     URL.revokeObjectURL(url);
   };
 
-  // Live Telemetry Stream Simulation Loop
-  useEffect(() => {
-    if (!isSimulating) return;
+  // Human-readable current location, reflecting the active district/region filters
+  const locationLabel =
+    districtFilter !== 'All Districts'
+      ? regionFilter !== 'All Regions'
+        ? `${districtFilter} · ${regionFilter}`
+        : districtFilter
+      : regionFilter !== 'All Regions'
+      ? regionFilter
+      : 'All Regions / All Districts';
 
-    const interval = setInterval(() => {
-      setKpis((prev) =>
-        prev.map((k) => {
-          // Slight random fluctuation (+/- 1.5% max)
-          const range = k.max - k.min;
-          const fluctuation = (Math.random() - 0.5) * (range * 0.02);
-          const rawVal = k.value + fluctuation;
-          const clampedVal = Math.min(k.max, Math.max(k.min, Number(rawVal.toFixed(2))));
-
-          return {
-            ...k,
-            value: clampedVal,
-          };
-        })
-      );
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [isSimulating]);
-
-  // Handle region filtering adjustment
-  const displayedKpis = kpis.map((k) => {
-    if (regionFilter === 'All Regions') return k;
-
-    // Adjust metric value according to region breakdown ratio
-    const regData = k.regionalBreakdown.find((r) => r.region === regionFilter);
-    if (!regData) return k;
-
-    return {
-      ...k,
-      value: regData.value,
-    };
-  });
+  // Apply the full sidebar filter stack (reporting period, region, district, customer
+  // class, network level) so every filter change visibly moves the mock telemetry
+  const displayedKpis = kpis.map((k) =>
+    computeDisplayKpi(
+      k,
+      {
+        region: regionFilter,
+        district: districtFilter,
+        customerClass: customerClassFilter,
+        networkLevel: networkLevelFilter,
+        reportingPeriod,
+      },
+      activeScenario
+    )
+  );
 
   const filteredKpis = categoryFilter === 'ALL'
     ? displayedKpis
     : displayedKpis.filter((k) => k.category === categoryFilter);
 
-  // Check alert statuses for master warning panel
-  const hasRedAlerts = kpis.some((k) => getKpiStatus(k) === 'red');
-  const hasAmberAlerts = kpis.some((k) => getKpiStatus(k) === 'amber');
+  // Check alert statuses for master warning panel against what's currently displayed
+  const hasRedAlerts = displayedKpis.some((k) => getKpiStatus(k) === 'red');
+  const hasAmberAlerts = displayedKpis.some((k) => getKpiStatus(k) === 'amber');
 
   // Enforce light mode (remove `.dark` class from document.documentElement)
   useEffect(() => {
@@ -144,11 +132,17 @@ export default function App() {
         onThemeChange={setTheme}
         selectedRegion={regionFilter}
         onRegionChange={setRegionFilter}
+        selectedDistrict={districtFilter}
+        onDistrictChange={setDistrictFilter}
+        selectedCustomerClass={customerClassFilter}
+        onCustomerClassChange={setCustomerClassFilter}
+        selectedNetworkLevel={networkLevelFilter}
+        onNetworkLevelChange={setNetworkLevelFilter}
+        reportingPeriod={reportingPeriod}
+        onReportingPeriodChange={setReportingPeriod}
         categoryFilter={categoryFilter}
         onCategoryChange={setCategoryFilter}
         onApplyScenario={handleApplyScenario}
-        isSimulating={isSimulating}
-        onToggleSimulation={() => setIsSimulating(!isSimulating)}
         onResetData={handleResetData}
         onExportReport={handleExportReport}
         hasRedAlerts={hasRedAlerts}
@@ -164,7 +158,7 @@ export default function App() {
           <AnnunciatorStrip
             kpis={displayedKpis}
             onSelectKpi={(id) => {
-              const found = kpis.find((k) => k.id === id);
+              const found = displayedKpis.find((k) => k.id === id);
               if (found) setSelectedKpiForDetail(found);
             }}
           />
@@ -172,7 +166,7 @@ export default function App() {
 
         {/* The 9-Instrument Aviation Cockpit Grid */}
         <main className="flex-1 flex flex-col min-h-0 py-1">
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr gap-2.5 sm:gap-3 xl:gap-4 2xl:gap-5 items-stretch min-h-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3 xl:gap-4 2xl:gap-5 items-stretch lg:flex-1 lg:auto-rows-fr lg:min-h-0">
             {filteredKpis.map((kpi) => (
               <AviationGauge
                 key={kpi.id}
@@ -191,6 +185,8 @@ export default function App() {
             kpis={displayedKpis}
             theme={theme}
             onExportReport={handleExportReport}
+            activeScenario={activeScenario}
+            location={locationLabel}
           />
         </div>
       </div>

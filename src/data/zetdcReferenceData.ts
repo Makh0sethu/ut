@@ -102,6 +102,25 @@ export const ZETDC_PROVINCES: ZetdcProvince[] = [
 // Flat list of all 83 Districts
 export const ALL_ZETDC_DISTRICTS: string[] = ZETDC_PROVINCES.flatMap((p) => p.districts);
 
+// Metro-tier districts: major city centres with the densest, best-maintained grid infrastructure
+const METRO_DISTRICTS = new Set(['Bulawayo', 'Harare Municipality', 'Chitungwiza']);
+
+// Urban/secondary-town-tier districts: provincial capitals & growth points with moderate infrastructure
+const URBAN_DISTRICTS = new Set([
+  'Epworth', 'Ruwa', 'Norton', 'Redcliff', 'Chinhoyi', 'Bindura Urban', 'Marondera Town',
+  'Kadoma', 'Kariba Town', 'Karoi', 'Chegutu Town', 'Mutare Town', 'Chipinge Urban',
+  'Masvingo Town', 'Gwanda Town', 'Beitbridge Town', 'Hwange Town', 'Victoria Falls',
+  'Gweru', 'Kwekwe Town', 'Gokwe Urban', 'Zvishavane Town', 'Shurugwi Urban', 'Plumtree',
+]);
+
+// Classifies a district into an infrastructure tier used to derive realistic mock KPI variance.
+// Metro = best-served, Rural = least-served, mirroring the existing regional breakdown pattern.
+export function classifyDistrictTier(district: string): 'metro' | 'urban' | 'rural' {
+  if (METRO_DISTRICTS.has(district)) return 'metro';
+  if (URBAN_DISTRICTS.has(district)) return 'urban';
+  return 'rural';
+}
+
 // 3. Customer Classes (TariffRate Model)
 export const ZETDC_CUSTOMER_CATEGORIES: ZetdcCustomerCategory[] = [
   { key: 'DOMESTIC', label: 'Domestic (E1.x)', tariffCode: 'E 1.1 - E 1.4', exportRate: 0.85 },
