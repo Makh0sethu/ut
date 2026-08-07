@@ -18,6 +18,7 @@ export default function App() {
   const [theme, setTheme] = useState<CockpitTheme>('daylight');
   const [regionFilter, setRegionFilter] = useState<RegionFilter>('All Regions');
   const [districtFilter, setDistrictFilter] = useState<string>('All Districts');
+  const [depotFilter, setDepotFilter] = useState<string>('All Depots');
   const [customerClassFilter, setCustomerClassFilter] = useState<string>('All Classes');
   const [networkLevelFilter, setNetworkLevelFilter] = useState<string>('All Voltage Levels');
   const [reportingPeriod, setReportingPeriod] = useState<string>('Q3 2026');
@@ -68,6 +69,7 @@ export default function App() {
       timestamp: new Date().toISOString(),
       regionSector: regionFilter,
       district: districtFilter,
+      depot: depotFilter,
       customerClass: customerClassFilter,
       networkLevel: networkLevelFilter,
       reportingPeriod,
@@ -144,6 +146,8 @@ export default function App() {
         onRegionChange={handleRegionChange}
         selectedDistrict={districtFilter}
         onDistrictChange={setDistrictFilter}
+        selectedDepot={depotFilter}
+        onDepotChange={setDepotFilter}
         selectedCustomerClass={customerClassFilter}
         onCustomerClassChange={setCustomerClassFilter}
         selectedNetworkLevel={networkLevelFilter}
@@ -174,18 +178,22 @@ export default function App() {
           />
         </div>
 
-        {/* The 9-Instrument Aviation Cockpit Grid */}
+        {/* The 10-Instrument Aviation Cockpit Grid */}
         <main className="flex-1 flex flex-col py-1">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2.5 sm:gap-3 xl:gap-4 2xl:gap-5 items-center lg:flex-1 lg:auto-rows-fr">
-            {filteredKpis.map((kpi) => (
-              <AviationGauge
-                key={kpi.id}
-                kpi={kpi}
-                theme={theme}
-                onUpdateValue={handleUpdateValue}
-                onOpenDetail={(item) => setSelectedKpiForDetail(item)}
-              />
-            ))}
+            {filteredKpis.map((kpi, index) => {
+              const isLastInDanglingRow = index === filteredKpis.length - 1 && filteredKpis.length % 3 === 1;
+              return (
+                <AviationGauge
+                  key={kpi.id}
+                  kpi={kpi}
+                  theme={theme}
+                  onUpdateValue={handleUpdateValue}
+                  onOpenDetail={(item) => setSelectedKpiForDetail(item)}
+                  className={isLastInDanglingRow ? 'md:col-start-2 xl:col-start-2' : undefined}
+                />
+              );
+            })}
           </div>
         </main>
 

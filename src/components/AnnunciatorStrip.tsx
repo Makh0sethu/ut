@@ -47,8 +47,8 @@ export const AnnunciatorStrip: React.FC<AnnunciatorStripProps> = ({ kpis, onSele
           </div>
         </div>
 
-        {/* 9 Illuminated Cockpit System Tiles */}
-        <div className="grid grid-cols-3 sm:grid-cols-9 gap-1.5 w-full md:w-auto">
+        {/* 10 Illuminated Cockpit System Tiles */}
+        <div className="grid grid-cols-5 sm:grid-cols-10 gap-1.5 w-full md:w-auto">
           {statuses.map((s) => {
             const isRed = s.status === 'red';
             const isAmber = s.status === 'amber';

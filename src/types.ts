@@ -1,6 +1,6 @@
 export type KpiCategory = 'Reliability & Operations' | 'Commercial & Revenue' | 'Customer & Access';
 
-export type InstrumentAesthetic = 'SAIDI_DURATION' | 'SAIFI_FREQ' | 'ACCESS_GRID' | 'ENERGY_SALES' | 'COLLECTION_INDEX' | 'SYSTEM_LOSSES' | 'CSAT_RATING' | 'FAULT_RESPONSE' | 'WAITING_PERIOD';
+export type InstrumentAesthetic = 'FAULTS_FREQ' | 'SAIDI_DURATION' | 'SAIFI_FREQ' | 'ACCESS_GRID' | 'ENERGY_SALES' | 'COLLECTION_INDEX' | 'SYSTEM_LOSSES' | 'CSAT_RATING' | 'FAULT_RESPONSE' | 'WAITING_PERIOD';
 
 export interface RegionalData {
   region: string;

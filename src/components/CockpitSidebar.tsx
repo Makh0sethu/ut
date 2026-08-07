@@ -4,6 +4,7 @@ import { PRESET_SCENARIOS } from '../data/mockKpis';
 import {
   ZETDC_REGIONS,
   ZETDC_DISTRICTS,
+  ZETDC_DEPOTS,
   ZETDC_CUSTOMER_CATEGORIES,
   ZETDC_NETWORK_LEVELS,
 } from '../data/zetdcReferenceData';
@@ -24,6 +25,8 @@ interface CockpitSidebarProps {
   onRegionChange: (region: RegionFilter) => void;
   selectedDistrict: string;
   onDistrictChange: (district: string) => void;
+  selectedDepot: string;
+  onDepotChange: (depot: string) => void;
   selectedCustomerClass: string;
   onCustomerClassChange: (customerClass: string) => void;
   selectedNetworkLevel: string;
@@ -47,6 +50,8 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
   onRegionChange,
   selectedDistrict,
   onDistrictChange,
+  selectedDepot,
+  onDepotChange,
   selectedCustomerClass,
   onCustomerClassChange,
   selectedNetworkLevel,
@@ -127,8 +132,8 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                 : 'bg-panel-alt hover:bg-panel-raised text-ink-muted border border-line'
             }`}
           >
-            <span>ALL 9</span>
-            <span className="text-[10px] opacity-75 font-mono">3x3</span>
+            <span>ALL 10</span>
+            <span className="text-[10px] opacity-75 font-mono">3x3+1</span>
           </button>
           <button
             onClick={() => onCategoryChange('Reliability & Operations')}
@@ -139,7 +144,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             }`}
           >
             <span>RELIABILITY</span>
-            <span className="text-[10px] opacity-75 font-mono">(4)</span>
+            <span className="text-[10px] opacity-75 font-mono">(5)</span>
           </button>
           <button
             onClick={() => onCategoryChange('Commercial & Revenue')}
@@ -170,7 +175,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
       <div className="bg-panel border border-line rounded-2xl p-2.5 space-y-2">
         <div className="flex items-center gap-1 text-[10px] font-mono font-bold text-ink-faint uppercase">
           <Sliders size={12} className="text-accent" />
-          <span>TELEMETRY FILTERS (5)</span>
+          <span>TELEMETRY FILTERS (6)</span>
         </div>
 
         {/* 1. REPORTING PERIOD */}
@@ -241,7 +246,29 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
           </div>
         </div>
 
-        {/* 4. CUSTOMER CLASS (8 ZERA Tariff Classes) */}
+        {/* 4. DEPOT (72 ZETDC Operational Depots) */}
+        <div className="space-y-0.5">
+          <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase">
+            ZETDC OPERATIONAL DEPOT (72)
+          </label>
+          <div className="relative">
+            <select
+              value={selectedDepot}
+              onChange={(e) => onDepotChange(e.target.value)}
+              className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
+            >
+              <option value="All Depots">All 72 Depots</option>
+              {ZETDC_DEPOTS.map((d) => (
+                <option key={d.code} value={d.name}>
+                  {d.name} ({d.code})
+                </option>
+              ))}
+            </select>
+            <ChevronDown size={12} className="absolute right-2 top-2 text-accent pointer-events-none" />
+          </div>
+        </div>
+
+        {/* 5. CUSTOMER CLASS (8 ZERA Tariff Classes) */}
         <div className="space-y-0.5">
           <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase">
             CUSTOMER CATEGORY (ZERA TARIFF)
@@ -263,7 +290,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
           </div>
         </div>
 
-        {/* 5. NETWORK LEVEL & NODE HIERARCHY */}
+        {/* 6. NETWORK LEVEL & NODE HIERARCHY */}
         <div className="space-y-0.5">
           <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase">
             NODE TYPE & VOLTAGE HIERARCHY

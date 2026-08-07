@@ -13,6 +13,7 @@ interface AviationGaugeProps {
   theme: CockpitTheme;
   onUpdateValue: (id: string, newValue: number) => void;
   onOpenDetail: (kpi: KpiMetric) => void;
+  className?: string;
 }
 
 export const AviationGauge: React.FC<AviationGaugeProps> = ({
@@ -20,6 +21,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
   theme,
   onUpdateValue,
   onOpenDetail,
+  className,
 }) => {
   const [showQuickControls, setShowQuickControls] = useState(false);
   const status = getKpiStatus(kpi);
@@ -76,7 +78,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
 
   return (
     <div
-      className="relative group w-full h-full min-h-[240px] max-h-[300px] rounded-2xl p-2.5 sm:p-3 xl:p-4 2xl:p-5 transition-all duration-300 flex flex-col justify-between select-none shadow-md border bg-panel border-line text-ink hover:border-accent/50 hover:shadow-lg"
+      className={`relative group w-full h-full min-h-[240px] max-h-[300px] rounded-2xl p-2.5 sm:p-3 xl:p-4 2xl:p-5 transition-all duration-300 flex flex-col justify-between select-none shadow-md border bg-panel border-line text-ink hover:border-accent/50 hover:shadow-lg${className ? ` ${className}` : ''}`}
     >
       {/* Instrument Header Info */}
       <div className="flex items-start justify-between gap-2 mb-1 z-10">
