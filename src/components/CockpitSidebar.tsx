@@ -318,15 +318,15 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
         <label className="text-[10px] font-mono font-bold text-white/70 uppercase block">
           FLIGHT SCENARIOS
         </label>
-        <div className="grid grid-cols-2 gap-1.5">
+        <div className="flex flex-col gap-1.5">
           {PRESET_SCENARIOS.map((scenario) => (
             <button
               key={scenario.id}
               onClick={() => onApplyScenario(scenario)}
-              className="px-2 py-1.5 rounded-xl bg-panel hover:bg-panel-raised border border-line text-[11px] font-mono text-ink flex items-center justify-between transition-all shadow-sm truncate"
+              className="w-full px-2.5 py-1.5 rounded-xl bg-panel hover:bg-panel-raised border border-line text-[11px] font-mono text-ink flex items-center justify-between gap-2 transition-all shadow-sm"
             >
-              <span className="truncate">{scenario.name}</span>
-              <span className="text-[8px] px-1 bg-panel-raised text-accent rounded shrink-0">
+              <span className="truncate text-left">{scenario.name}</span>
+              <span className="text-[8px] px-1.5 py-0.5 bg-panel-raised text-accent rounded shrink-0 whitespace-nowrap">
                 {scenario.badge}
               </span>
             </button>

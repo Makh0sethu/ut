@@ -230,7 +230,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
       {/* Quick Interactive Slider Drawer */}
       {showQuickControls && (
         <div className="mt-2 p-2.5 bg-panel-alt border border-line rounded-xl animate-in fade-in duration-200 z-10 space-y-2">
-          <div className="flex items-center justify-between text-xs font-mono text-slate-300">
+          <div className="flex items-center justify-between text-xs font-mono text-ink-muted">
             <span>Telemetry Tuning</span>
             <span className="font-bold text-accent">
               {formatValue(kpi.value, kpi.unit)}
@@ -248,13 +248,13 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
           <div className="flex items-center justify-between gap-1">
             <button
               onClick={() => handleNudge(-step * 2)}
-              className="px-2 py-0.5 bg-panel-alt hover:bg-panel-raised text-xs font-mono rounded text-slate-200"
+              className="px-2 py-0.5 bg-panel-alt hover:bg-panel-raised text-xs font-mono rounded text-ink-muted border border-line"
             >
               -{step * 2}
             </button>
             <button
               onClick={() => handleNudge(-step)}
-              className="px-2 py-0.5 bg-panel-alt hover:bg-panel-raised text-xs font-mono rounded text-slate-200"
+              className="px-2 py-0.5 bg-panel-alt hover:bg-panel-raised text-xs font-mono rounded text-ink-muted border border-line"
             >
               -{step}
             </button>
@@ -266,13 +266,13 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
             </button>
             <button
               onClick={() => handleNudge(step)}
-              className="px-2 py-0.5 bg-panel-alt hover:bg-panel-raised text-xs font-mono rounded text-slate-200"
+              className="px-2 py-0.5 bg-panel-alt hover:bg-panel-raised text-xs font-mono rounded text-ink-muted border border-line"
             >
               +{step}
             </button>
             <button
               onClick={() => handleNudge(step * 2)}
-              className="px-2 py-0.5 bg-panel-alt hover:bg-panel-raised text-xs font-mono rounded text-slate-200"
+              className="px-2 py-0.5 bg-panel-alt hover:bg-panel-raised text-xs font-mono rounded text-ink-muted border border-line"
             >
               +{step * 2}
             </button>
