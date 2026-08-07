@@ -66,7 +66,9 @@ export const AnnunciatorStrip: React.FC<AnnunciatorStripProps> = ({ kpis, onSele
                 }`}
               >
                 <span className="text-[8px] opacity-70">{s.code}</span>
-                <span className="truncate max-w-[65px]">{s.name.split(' ')[0]}</span>
+                <span className="leading-tight text-[7px] line-clamp-2 text-center break-words">
+                  {s.name.split(' ').slice(0, 2).join(' ')}
+                </span>
               </button>
             );
           })}

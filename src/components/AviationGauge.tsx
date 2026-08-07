@@ -83,10 +83,10 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
       {/* Instrument Header Info */}
       <div className="flex items-start justify-between gap-2 mb-1 z-10">
         <div className="flex-1 min-w-0">
-          <h3 className="font-bold text-sm xl:text-base 2xl:text-lg tracking-wider uppercase font-sans truncate text-ink">
+          <h3 className="font-bold text-[11px] xl:text-xs 2xl:text-sm tracking-wider uppercase font-sans leading-tight break-words text-ink">
             {kpi.name}
           </h3>
-          <p className="text-[11px] xl:text-xs 2xl:text-sm font-sans tracking-tight truncate mt-0.5 text-ink-muted font-medium">
+          <p className="text-[10px] xl:text-[11px] 2xl:text-xs font-sans tracking-tight truncate mt-0.5 text-ink-muted font-medium">
             {kpi.subtitle}
           </p>
         </div>
