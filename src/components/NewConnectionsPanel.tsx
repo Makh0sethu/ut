@@ -40,12 +40,12 @@ export const NewConnectionsPanel: React.FC<NewConnectionsPanelProps> = ({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
-          <PlugZap size={14} className="text-accent" />
+          <PlugZap size={14} className="text-accent-text" />
           <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-ink-faint">
             New Connections
           </span>
         </div>
-   
+
       </div>
 
       <p className="text-[10px] font-mono tracking-tight leading-snug text-ink-muted">
@@ -80,7 +80,7 @@ export const NewConnectionsPanel: React.FC<NewConnectionsPanelProps> = ({
         <div className="flex-1 flex flex-col justify-between py-1">
           <div>
             <div className="text-[9px] font-mono font-bold text-ink-faint uppercase">Target</div>
-            <div className="text-xs font-mono font-bold text-accent">{target.toLocaleString()}</div>
+            <div className="text-xs font-mono font-bold text-accent-text">{target.toLocaleString()}</div>
           </div>
           <div>
             <div className="text-[9px] font-mono font-bold text-ink-faint uppercase">Progress</div>

@@ -30,7 +30,7 @@ export interface KpiMetric {
   aestheticType: InstrumentAesthetic;
 }
 
-export type CockpitTheme = 'daylight';
+export type CockpitTheme = 'daylight' | 'instruments';
 
 export type RegionFilter = string;
 

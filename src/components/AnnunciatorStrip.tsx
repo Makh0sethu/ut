@@ -62,7 +62,7 @@ export const AnnunciatorStrip: React.FC<AnnunciatorStripProps> = ({ kpis, onSele
                     ? 'bg-red-500 text-white border-red-600 shadow-[0_0_12px_rgba(239,68,68,0.5)] animate-pulse'
                     : isAmber
                     ? 'bg-amber-500 text-white border-amber-600 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
-                    : 'bg-panel text-accent border-line hover:bg-panel-raised hover:border-accent/40'
+                    : 'bg-panel text-accent-text border-line hover:bg-panel-raised hover:border-accent/40'
                 }`}
               >
                 <span className="text-[8px] opacity-70">{s.code}</span>

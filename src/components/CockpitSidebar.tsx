@@ -16,6 +16,8 @@ import {
   Sliders,
   Menu,
   X,
+  Gauge,
+  CircleDot,
 } from 'lucide-react';
 
 interface CockpitSidebarProps {
@@ -45,7 +47,8 @@ interface CockpitSidebarProps {
 }
 
 export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
- 
+  theme,
+  onThemeChange,
   selectedRegion,
   onRegionChange,
   selectedDistrict,
@@ -174,7 +177,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
       {/* 5 Filter Dropdowns Stacked Vertically */}
       <div className="bg-panel border border-line rounded-2xl p-2.5 space-y-2">
         <div className="flex items-center gap-1 text-[10px] font-mono font-bold text-ink-faint uppercase">
-          <Sliders size={12} className="text-accent" />
+          <Sliders size={12} className="text-accent-text" />
           <span>TELEMETRY FILTERS (6)</span>
         </div>
 
@@ -187,14 +190,14 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             <select
               value={reportingPeriod}
               onChange={(e) => onReportingPeriodChange(e.target.value)}
-              className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
+              className="w-full bg-panel-alt border border-line text-accent-text text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
             >
               <option value="Q3 2026">Q3 2026</option>
               <option value="Q2 2026">Q2 2026</option>
               <option value="YTD 2026">YTD 2026</option>
               <option value="FY 2025">Full Year 2025</option>
             </select>
-            <ChevronDown size={12} className="absolute right-2 top-2 text-accent pointer-events-none" />
+            <ChevronDown size={12} className="absolute right-2 top-2 text-accent-text pointer-events-none" />
           </div>
         </div>
 
@@ -207,7 +210,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             <select
               value={selectedRegion}
               onChange={(e) => onRegionChange(e.target.value as RegionFilter)}
-              className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
+              className="w-full bg-panel-alt border border-line text-accent-text text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
             >
               <option value="All Regions">All 5 Regions</option>
               {ZETDC_REGIONS.map((r) => (
@@ -216,7 +219,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                 </option>
               ))}
             </select>
-            <ChevronDown size={12} className="absolute right-2 top-2 text-accent pointer-events-none" />
+            <ChevronDown size={12} className="absolute right-2 top-2 text-accent-text pointer-events-none" />
           </div>
         </div>
 
@@ -229,7 +232,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             <select
               value={selectedDistrict}
               onChange={(e) => onDistrictChange(e.target.value)}
-              className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
+              className="w-full bg-panel-alt border border-line text-accent-text text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
             >
               <option value="All Districts">All 18 Operational Districts</option>
               {ZETDC_REGIONS.filter((r) => selectedRegion === 'All Regions' || selectedRegion === r).map((region) => (
@@ -242,7 +245,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                 </optgroup>
               ))}
             </select>
-            <ChevronDown size={12} className="absolute right-2 top-2 text-accent pointer-events-none" />
+            <ChevronDown size={12} className="absolute right-2 top-2 text-accent-text pointer-events-none" />
           </div>
         </div>
 
@@ -255,7 +258,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             <select
               value={selectedDepot}
               onChange={(e) => onDepotChange(e.target.value)}
-              className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
+              className="w-full bg-panel-alt border border-line text-accent-text text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
             >
               <option value="All Depots">All 72 Depots</option>
               {ZETDC_DEPOTS.map((d) => (
@@ -264,7 +267,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                 </option>
               ))}
             </select>
-            <ChevronDown size={12} className="absolute right-2 top-2 text-accent pointer-events-none" />
+            <ChevronDown size={12} className="absolute right-2 top-2 text-accent-text pointer-events-none" />
           </div>
         </div>
 
@@ -277,7 +280,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             <select
               value={selectedCustomerClass}
               onChange={(e) => onCustomerClassChange(e.target.value)}
-              className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
+              className="w-full bg-panel-alt border border-line text-accent-text text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
             >
               <option value="All Classes">All 8 Customer Categories</option>
               {ZETDC_CUSTOMER_CATEGORIES.map((c) => (
@@ -286,7 +289,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                 </option>
               ))}
             </select>
-            <ChevronDown size={12} className="absolute right-2 top-2 text-accent pointer-events-none" />
+            <ChevronDown size={12} className="absolute right-2 top-2 text-accent-text pointer-events-none" />
           </div>
         </div>
 
@@ -299,7 +302,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
             <select
               value={selectedNetworkLevel}
               onChange={(e) => onNetworkLevelChange(e.target.value)}
-              className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
+              className="w-full bg-panel-alt border border-line text-accent-text text-xs font-mono font-semibold rounded-lg px-2.5 py-1 appearance-none cursor-pointer focus:outline-none focus:border-accent"
             >
               <option value="All Voltage Levels">All Grid Node Levels</option>
               {ZETDC_NETWORK_LEVELS.map((nl) => (
@@ -308,7 +311,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                 </option>
               ))}
             </select>
-            <ChevronDown size={12} className="absolute right-2 top-2 text-accent pointer-events-none" />
+            <ChevronDown size={12} className="absolute right-2 top-2 text-accent-text pointer-events-none" />
           </div>
         </div>
       </div>
@@ -326,7 +329,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
               className="w-full px-2.5 py-1.5 rounded-xl bg-panel hover:bg-panel-raised border border-line text-[11px] font-mono text-ink flex items-center justify-between gap-2 transition-all shadow-sm"
             >
               <span className="truncate text-left">{scenario.name}</span>
-              <span className="text-[8px] px-1.5 py-0.5 bg-panel-raised text-accent rounded shrink-0 whitespace-nowrap">
+              <span className="text-[8px] px-1.5 py-0.5 bg-panel-raised text-accent-text rounded shrink-0 whitespace-nowrap">
                 {scenario.badge}
               </span>
             </button>
@@ -336,6 +339,36 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
 
       {/* Telemetry Actions & Theme Control */}
       <div className="pt-2 border-t border-white/20 space-y-2">
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-mono font-bold text-white/70 uppercase block">
+            PANEL STYLE
+          </label>
+          <div className="grid grid-cols-2 gap-1.5">
+            <button
+              onClick={() => onThemeChange('daylight')}
+              className={`px-2 py-1.5 rounded-xl border text-[11px] font-mono font-bold flex items-center justify-center gap-1.5 transition-all ${
+                theme === 'daylight'
+                  ? 'bg-white text-blue-900 border-white'
+                  : 'bg-panel hover:bg-panel-raised border-line text-ink'
+              }`}
+            >
+              <Gauge size={13} />
+              <span>DIGITAL</span>
+            </button>
+            <button
+              onClick={() => onThemeChange('instruments')}
+              className={`px-2 py-1.5 rounded-xl border text-[11px] font-mono font-bold flex items-center justify-center gap-1.5 transition-all ${
+                theme === 'instruments'
+                  ? 'bg-amber-500 text-stone-950 border-amber-400'
+                  : 'bg-panel hover:bg-panel-raised border-line text-ink'
+              }`}
+            >
+              <CircleDot size={13} />
+              <span>ANALOG</span>
+            </button>
+          </div>
+        </div>
+
         <div className="flex items-center justify-center gap-1.5">
           {/* Reset */}
           <button

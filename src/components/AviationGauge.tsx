@@ -232,7 +232,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
         <div className="mt-2 p-2.5 bg-panel-alt border border-line rounded-xl animate-in fade-in duration-200 z-10 space-y-2">
           <div className="flex items-center justify-between text-xs font-mono text-ink-muted">
             <span>Telemetry Tuning</span>
-            <span className="font-bold text-accent">
+            <span className="font-bold text-accent-text">
               {formatValue(kpi.value, kpi.unit)}
             </span>
           </div>
@@ -260,7 +260,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
             </button>
             <button
               onClick={() => onUpdateValue(kpi.id, kpi.target)}
-              className="px-2 py-0.5 bg-accent/15 hover:bg-accent/25 text-xs font-mono rounded text-accent border border-accent/40"
+              className="px-2 py-0.5 bg-accent/15 hover:bg-accent/25 text-xs font-mono rounded text-accent-text border border-accent/40"
             >
               Target ({kpi.target})
             </button>
@@ -310,7 +310,7 @@ export const AviationGauge: React.FC<AviationGaugeProps> = ({
           {kpi.inverted ? (
             <span className="text-red-500">LOWER IS BETTER</span>
           ) : (
-            <span className="text-accent">HIGHER IS BETTER</span>
+            <span className="text-accent-text">HIGHER IS BETTER</span>
           )}
         </div>
       </div>

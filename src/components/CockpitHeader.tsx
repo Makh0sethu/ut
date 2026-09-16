@@ -61,7 +61,7 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-black tracking-wider text-white uppercase font-sans flex items-center gap-2">
-                <span className="text-accent font-bold">ZETDC</span>
+                <span className="text-accent-text font-bold">ZETDC</span>
                 <span className="text-slate-600 font-light">|</span>
                 <span className="tracking-widest">DISTRIBUTION & RETAIL PERFORMANCE COCKPIT</span>
               </h1>
@@ -91,7 +91,7 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
             )}
 
             <div className="text-right hidden sm:block">
-              <div className="text-xs font-mono font-bold text-accent tracking-wider uppercase">
+              <div className="text-xs font-mono font-bold text-accent-text tracking-wider uppercase">
                 AIRCRAFT SIX-PACK INSPIRED
               </div>
               <div className="text-[11px] font-sans text-slate-400">
@@ -121,14 +121,14 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
               <select
                 value={reportingPeriod}
                 onChange={(e) => setReportingPeriod(e.target.value)}
-                className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1.5 appearance-none cursor-pointer focus:outline-none focus:border-accent"
+                className="w-full bg-panel-alt border border-line text-accent-text text-xs font-mono font-semibold rounded-lg px-2.5 py-1.5 appearance-none cursor-pointer focus:outline-none focus:border-accent"
               >
                 <option value="Q3 2026">Q3 2026</option>
                 <option value="Q2 2026">Q2 2026</option>
                 <option value="YTD 2026">YTD 2026</option>
                 <option value="FY 2025">Full Year 2025</option>
               </select>
-              <ChevronDown size={14} className="absolute right-2 top-2.5 text-accent pointer-events-none" />
+              <ChevronDown size={14} className="absolute right-2 top-2.5 text-accent-text pointer-events-none" />
             </div>
           </div>
 
@@ -141,7 +141,7 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
               <select
                 value={selectedRegion}
                 onChange={(e) => onRegionChange(e.target.value as RegionFilter)}
-                className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1.5 appearance-none cursor-pointer focus:outline-none focus:border-accent"
+                className="w-full bg-panel-alt border border-line text-accent-text text-xs font-mono font-semibold rounded-lg px-2.5 py-1.5 appearance-none cursor-pointer focus:outline-none focus:border-accent"
               >
                 <option value="All Regions">All Regions</option>
                 <option value="Metro Zone">Metro Zone</option>
@@ -149,7 +149,7 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
                 <option value="Rural North">Rural North</option>
                 <option value="Coastal West">Coastal West</option>
               </select>
-              <ChevronDown size={14} className="absolute right-2 top-2.5 text-accent pointer-events-none" />
+              <ChevronDown size={14} className="absolute right-2 top-2.5 text-accent-text pointer-events-none" />
             </div>
           </div>
 
@@ -162,14 +162,14 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
               <select
                 value={districtFilter}
                 onChange={(e) => setDistrictFilter(e.target.value)}
-                className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1.5 appearance-none cursor-pointer focus:outline-none focus:border-accent"
+                className="w-full bg-panel-alt border border-line text-accent-text text-xs font-mono font-semibold rounded-lg px-2.5 py-1.5 appearance-none cursor-pointer focus:outline-none focus:border-accent"
               >
                 <option value="All Districts">All Districts</option>
                 <option value="Central Grid">Central Grid</option>
                 <option value="North Feeder">North Feeder</option>
                 <option value="Harare Sub-grid">Harare Sub-grid</option>
               </select>
-              <ChevronDown size={14} className="absolute right-2 top-2.5 text-accent pointer-events-none" />
+              <ChevronDown size={14} className="absolute right-2 top-2.5 text-accent-text pointer-events-none" />
             </div>
           </div>
 
@@ -182,14 +182,14 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
               <select
                 value={customerClassFilter}
                 onChange={(e) => setCustomerClassFilter(e.target.value)}
-                className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1.5 appearance-none cursor-pointer focus:outline-none focus:border-accent"
+                className="w-full bg-panel-alt border border-line text-accent-text text-xs font-mono font-semibold rounded-lg px-2.5 py-1.5 appearance-none cursor-pointer focus:outline-none focus:border-accent"
               >
                 <option value="All Classes">All Classes</option>
                 <option value="Industrial & Commercial">Industrial & Commercial</option>
                 <option value="Domestic Residential">Domestic Residential</option>
                 <option value="Agricultural Mining">Agricultural & Mining</option>
               </select>
-              <ChevronDown size={14} className="absolute right-2 top-2.5 text-accent pointer-events-none" />
+              <ChevronDown size={14} className="absolute right-2 top-2.5 text-accent-text pointer-events-none" />
             </div>
           </div>
 
@@ -202,14 +202,14 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
               <select
                 value={networkLevelFilter}
                 onChange={(e) => setNetworkLevelFilter(e.target.value)}
-                className="w-full bg-panel-alt border border-line text-accent text-xs font-mono font-semibold rounded-lg px-2.5 py-1.5 appearance-none cursor-pointer focus:outline-none focus:border-accent"
+                className="w-full bg-panel-alt border border-line text-accent-text text-xs font-mono font-semibold rounded-lg px-2.5 py-1.5 appearance-none cursor-pointer focus:outline-none focus:border-accent"
               >
                 <option value="All Voltage Levels">All Network Levels</option>
                 <option value="High Voltage (33kV)">High Voltage (33kV)</option>
                 <option value="Medium Voltage (11kV)">Medium Voltage (11kV)</option>
                 <option value="Low Voltage (400V)">Low Voltage (400V)</option>
               </select>
-              <ChevronDown size={14} className="absolute right-2 top-2.5 text-accent pointer-events-none" />
+              <ChevronDown size={14} className="absolute right-2 top-2.5 text-accent-text pointer-events-none" />
             </div>
           </div>
         </div>
@@ -228,7 +228,7 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-accent" />
                 <span>{scenario.name}</span>
-                <span className="text-[9px] px-1 bg-panel-raised text-accent rounded-md">
+                <span className="text-[9px] px-1 bg-panel-raised text-accent-text rounded-md">
                   {scenario.badge}
                 </span>
               </button>
@@ -242,7 +242,7 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
               className={`flex items-center gap-1.5 px-3 py-1 rounded-lg font-mono text-xs font-bold transition-all border ${
                 isSimulating
                   ? 'bg-accent text-white border-accent shadow-[0_0_12px_rgba(5,95,179,0.5)]'
-                  : 'bg-panel hover:bg-panel-raised text-accent border-line'
+                  : 'bg-panel hover:bg-panel-raised text-accent-text border-line'
               }`}
             >
               {isSimulating ? <Pause size={13} /> : <Play size={13} />}

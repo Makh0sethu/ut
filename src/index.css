@@ -20,8 +20,33 @@
   --accent-primary: #055FB3;
   --accent-hover: #044b8e;
   --accent-glow: rgba(5, 95, 179, 0.2);
+  --accent-text: #055FB3;
   --success: #059669;
   --border-color: #e5e7eb;
+}
+
+/*
+  Dark Mode ("Analog" cockpit panel style). Toggled via a .dark class on
+  <html> when CockpitTheme is 'instruments' (see App.tsx) — every component
+  built on the --color-canvas/panel/ink/accent tokens above re-themes for
+  free, no per-component light/dark branching needed.
+*/
+.dark {
+  --bg-primary: #0b1220;
+  --bg-surface: #141b2d;
+  --bg-secondary: #1b2439;
+  --bg-tertiary: #263252;
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #b6c2d9;
+  --text-muted: #808dab;
+
+  --accent-primary: #0b4f8f;
+  --accent-hover: #093f70;
+  --accent-glow: rgba(11, 79, 143, 0.3);
+  --accent-text: #4da3ff;
+  --success: #10b981;
+  --border-color: #2b3654;
 }
 
 @theme {
@@ -31,6 +56,7 @@
   --color-accent: var(--accent-primary);
   --color-accent-hover: var(--accent-hover);
   --color-accent-glow: var(--accent-glow);
+  --color-accent-text: var(--accent-text);
   --color-success: var(--success);
 
   /* Surface & Text Tokens */

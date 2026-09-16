@@ -5,6 +5,7 @@ import { ZETDC_DISTRICTS } from './data/zetdcReferenceData';
 import { getKpiStatus } from './utils/gaugeHelpers';
 import { computeDisplayKpi } from './utils/mockDataEngine';
 import { AviationGauge } from './components/AviationGauge';
+import { KpiInstrumentGauge } from './components/KpiInstrumentGauge';
 import { CockpitSidebar } from './components/CockpitSidebar';
 import { AnnunciatorStrip } from './components/AnnunciatorStrip';
 import { KpiDetailModal } from './components/KpiDetailModal';
@@ -15,7 +16,7 @@ import { NewConnectionsPanel } from './components/NewConnectionsPanel';
 
 export default function App() {
   const [kpis, setKpis] = useState<KpiMetric[]>(INITIAL_KPIS);
-  const [theme, setTheme] = useState<CockpitTheme>('daylight');
+  const [theme, setTheme] = useState<CockpitTheme>('instruments');
   const [regionFilter, setRegionFilter] = useState<RegionFilter>('All Regions');
   const [districtFilter, setDistrictFilter] = useState<string>('All Districts');
   const [depotFilter, setDepotFilter] = useState<string>('All Depots');
@@ -128,9 +129,11 @@ export default function App() {
   const hasRedAlerts = displayedKpis.some((k) => getKpiStatus(k) === 'red');
   const hasAmberAlerts = displayedKpis.some((k) => getKpiStatus(k) === 'amber');
 
-  // Enforce light mode (remove `.dark` class from document.documentElement)
+  // The "instruments" panel style is a full dark-mode theme: toggling `.dark`
+  // on <html> re-themes every canvas/panel/ink/accent-token-based component
+  // (sidebar, cards, footer, modals) at once via the CSS variables in index.css.
   useEffect(() => {
-    document.documentElement.classList.remove('dark');
+    document.documentElement.classList.toggle('dark', theme === 'instruments');
   }, [theme]);
 
   // Background style based on theme
@@ -180,10 +183,22 @@ export default function App() {
 
         {/* The 10-Instrument Aviation Cockpit Grid */}
         <main className="flex-1 flex flex-col py-1">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2.5 sm:gap-3 xl:gap-4 2xl:gap-5 items-center lg:flex-1 lg:auto-rows-fr">
+          <div
+            className={
+              theme === 'instruments'
+                ? 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-12 place-items-center p-4 sm:p-6'
+                : 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2.5 sm:gap-3 xl:gap-4 2xl:gap-5 items-center lg:flex-1 lg:auto-rows-fr'
+            }
+          >
             {filteredKpis.map((kpi, index) => {
               const isLastInDanglingRow = index === filteredKpis.length - 1 && filteredKpis.length % 3 === 1;
-              return (
+              return theme === 'instruments' ? (
+                <KpiInstrumentGauge
+                  key={kpi.id}
+                  kpi={kpi}
+                  onClick={() => setSelectedKpiForDetail(kpi)}
+                />
+              ) : (
                 <AviationGauge
                   key={kpi.id}
                   kpi={kpi}

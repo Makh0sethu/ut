@@ -73,7 +73,7 @@ export const KpiDetailModal: React.FC<KpiDetailModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-line bg-panel">
           <div className="flex items-center gap-2.5">
-            <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-accent/15 border border-accent/40 text-accent">
+            <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-accent/15 border border-accent/40 text-accent-text">
               {kpi.code}
             </span>
             <div>
@@ -125,7 +125,7 @@ export const KpiDetailModal: React.FC<KpiDetailModalProps> = ({
 
           {/* Thresholds & Values Adjuster Form */}
           <div className="p-4 rounded-xl bg-panel/60 border border-line space-y-4">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-accent flex items-center gap-1.5">
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-accent-text flex items-center gap-1.5">
               <span>Threshold Limits & Target Calibration</span>
             </h3>
 
@@ -134,7 +134,7 @@ export const KpiDetailModal: React.FC<KpiDetailModalProps> = ({
               <div className="space-y-1">
                 <label className="text-xs font-mono text-ink-muted flex justify-between">
                   <span>Current Metric Value:</span>
-                  <span className="font-bold text-accent">{value} {kpi.unit}</span>
+                  <span className="font-bold text-accent-text">{value} {kpi.unit}</span>
                 </label>
                 <input
                   type="range"
@@ -203,7 +203,7 @@ export const KpiDetailModal: React.FC<KpiDetailModalProps> = ({
           {/* Historical Trend Sparkline */}
           <div className="p-4 rounded-xl bg-panel/60 border border-line space-y-2">
             <div className="flex items-center justify-between">
-              <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-accent flex items-center gap-1.5">
+              <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-accent-text flex items-center gap-1.5">
                 <BarChart2 size={14} /> 12-Month Telemetry Trend
               </h3>
               <span className="text-xs font-mono text-ink-faint">12 Periods</span>
@@ -287,7 +287,7 @@ export const KpiDetailModal: React.FC<KpiDetailModalProps> = ({
 
           {/* Regional Sector Comparison Bars */}
           <div className="p-4 rounded-xl bg-panel/60 border border-line space-y-3">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-accent">
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-accent-text">
               Regional Sector Breakdown
             </h3>
             <div className="space-y-2">
@@ -319,7 +319,7 @@ export const KpiDetailModal: React.FC<KpiDetailModalProps> = ({
           <div className="p-4 rounded-xl bg-panel/40 border border-line space-y-2 text-xs">
             <div className="font-mono text-ink-muted">
               <span className="font-bold text-amber-600">Calculation Formula:</span>{' '}
-              <code className="bg-canvas px-2 py-1 rounded text-accent border border-line">
+              <code className="bg-canvas px-2 py-1 rounded text-accent-text border border-line">
                 {kpi.formula}
               </code>
             </div>

@@ -48,6 +48,34 @@ export function formatValue(val: number, unit: string): string {
 }
 
 /**
+ * The 5 evenly-spaced fractions (min, 25%, 50%, 75%, max) used to tick every
+ * KPI-driven instrument dial the same way, so every dial always shows its
+ * true min and max instead of stopping short (as a native aviation scale's
+ * own tick count would).
+ */
+export const KPI_TICK_FRACTIONS = [0, 0.25, 0.5, 0.75, 1] as const;
+
+/**
+ * Same 5-tick idea, but for a dial whose needle sweeps the full 360° (e.g. the
+ * Altimeter's single drum hand): fraction 1 lands on the same angle as
+ * fraction 0, so the max label would silently overwrite the min label. Drops
+ * the coincident endpoint instead.
+ */
+export const KPI_TICK_FRACTIONS_FULL_SWEEP = [0, 0.2, 0.4, 0.6, 0.8] as const;
+
+/**
+ * Rounds a tick label to a KPI-appropriate precision: narrow ranges (e.g.
+ * SAIFI's 0-6) get 1 decimal place so ticks stay distinct, wider ranges round
+ * to whole numbers.
+ */
+export function kpiTickLabel(kpiMin: number, kpiMax: number, fraction: number): string {
+  const val = kpiMin + fraction * (kpiMax - kpiMin);
+  const range = kpiMax - kpiMin;
+  if (range <= 10) return (Math.round(val * 10) / 10).toString();
+  return Math.round(val).toString();
+}
+
+/**
  * Generates an SVG path for an arc segment given center (cx, cy), radius, startAngle, endAngle
  */
 export function describeSvgArc(
