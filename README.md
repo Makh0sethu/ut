@@ -1,6 +1,6 @@
-# ZETDC Performance Cockpit
+# ZESA Performance Cockpit
 
-Interactive aviation instrument cockpit dashboard for utility distribution and retail performance tracking, with 9 core KPIs shown as interactive analog dials and 3-point meters.
+Interactive instrument cockpit dashboard for utility distribution and retail performance tracking, with KPIs shown as interactive analog dials and 3-point meters.
 
 ## Run Locally
 
