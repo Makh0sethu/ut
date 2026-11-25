@@ -91,20 +91,6 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
               ZESA HOLDINGS
             </span>
           </div>
-
-          {/* Top Right Logo (ZETDC Emblem Roundel) */}
-          <div className="flex flex-col items-center gap-1">
-            <div className="w-20 h-20 xl:w-24 xl:h-24 shrink-0 rounded-full p-1.5 shadow-xl flex items-center justify-center transition-transform hover:scale-105">
-              <img
-                src="/zetdc-logo.png"
-                alt="ZETDC Official Emblem Logo"
-                className="w-full h-full object-contain"
-              />
-            </div>
-            <span className="text-[9px] font-mono font-bold tracking-widest text-white uppercase">
-              ZETDC 
-            </span>
-          </div>
         </div>
 
         {/* Title Header */}
