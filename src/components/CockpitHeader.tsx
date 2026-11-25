@@ -61,12 +61,12 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-black tracking-wider text-white uppercase font-sans flex items-center gap-2">
-                <span className="text-accent-text font-bold">ZETDC</span>
+                <span className="text-accent-text font-bold">ZESA</span>
                 <span className="text-slate-600 font-light">|</span>
                 <span className="tracking-widest">DISTRIBUTION & RETAIL PERFORMANCE COCKPIT</span>
               </h1>
               <p className="text-xs text-slate-400 font-sans tracking-tight">
-                Zimbabwe Electricity Transmission & Distribution Company • Executive BI Flight Deck
+                Transmission & Distribution • Executive BI Flight Deck
               </p>
             </div>
           </div>
@@ -98,15 +98,7 @@ export const CockpitHeader: React.FC<CockpitHeaderProps> = ({
                 Aviation Telemetry Grid
               </div>
             </div>
-
-            {/* Top Right Logo (ZETDC Emblem) */}
-            <div className="w-13 h-13 w-[52px] h-[52px] shrink-0 rounded-full bg-white p-1 border-2 border-accent/35 shadow-xl flex items-center justify-center">
-              <img
-                src="/zetdc-logo.png"
-                alt="ZETDC Official Emblem Logo"
-                className="w-full h-full object-contain"
-              />
-            </div>
+       
           </div>
         </div>
 
