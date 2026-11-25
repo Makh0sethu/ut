@@ -71,9 +71,7 @@ export const CockpitFooter: React.FC<CockpitFooterProps> = ({
             <div className="w-6 h-7 p-0.5 bg-white rounded border border-line flex items-center justify-center shadow-sm">
               <img src="/zesa-logo.png" alt="ZESA Logo" className="w-full h-full object-contain" />
             </div>
-            <div className="w-6 h-6 p-0.5 bg-white rounded-full border border-accent flex items-center justify-center shadow-sm">
-              <img src="/zetdc-logo.png" alt="ZETDC Logo" className="w-full h-full object-contain" />
-            </div>
+          
             <span className="text-[11px] font-sans font-semibold text-ink-muted">ZESA Dashboard</span>
           </div>
 
